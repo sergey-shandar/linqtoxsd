@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Configuration xmlns="http://www.microsoft.com/xml/schema/linq">
+  <Namespaces>
+    <Namespace
+      Schema="http://www.example.com/PO1" 
+      Clr="LinqToXsdSamples.Schemas.PO1"/>
+  </Namespaces>
+  <Transformation xmlns="http://www.microsoft.com/FXT">
+    <Deanonymize/>
+  </Transformation>  
+</Configuration>

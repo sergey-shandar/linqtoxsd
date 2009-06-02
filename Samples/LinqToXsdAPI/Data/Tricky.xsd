@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://LinqToXsdSamples/Schemas/Tricky"
+  xmlns="http://LinqToXsdSamples/Schemas/Tricky"
+  elementFormDefault="qualified">
+  <xs:element name="tricky">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="a" type="xs:string"/>
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="b" type="xs:string"/>
+          <xs:element name="c" type="xs:string" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

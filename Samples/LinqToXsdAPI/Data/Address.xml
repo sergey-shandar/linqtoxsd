@@ -1,0 +1,8 @@
+﻿<Address
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.example.com/Address">
+  <POBox>423788</POBox>
+  <City>London</City>
+  <Zip>12345</Zip>
+  <State>CA</State>
+</Address>

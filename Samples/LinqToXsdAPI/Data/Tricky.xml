@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tricky
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://LinqToXsdSamples/Schemas/Tricky Tricky.xsd"
+  xmlns="http://LinqToXsdSamples/Schemas/Tricky">
+  <a>1</a>
+  <b>2</b>
+  <c>3</c>
+  <c>4</c>
+  <b>5</b>
+  <c>6</c>
+</tricky>
