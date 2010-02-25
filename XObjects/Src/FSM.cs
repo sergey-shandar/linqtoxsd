@@ -89,11 +89,6 @@ namespace Xml.Schema.Linq {
         }
     }
 
-    internal class Transitions<T>
-    {
-        public Dictionary<T, int> dictionary;
-    }
-
     public class Transitions {
         internal Dictionary<XName, int> nameTransitions;
         internal Dictionary<WildCard, int> wildCardTransitions;
