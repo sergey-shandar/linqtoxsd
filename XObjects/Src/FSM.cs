@@ -89,10 +89,15 @@ namespace Xml.Schema.Linq {
         }
     }
 
+    internal class Transitions<T>
+    {
+        public Dictionary<T, int> dictionary;
+    }
+
     public class Transitions {
         internal Dictionary<XName, int> nameTransitions;
         internal Dictionary<WildCard, int> wildCardTransitions;
-                
+        
         internal bool IsEmpty {
             get {
                  return Count == 0;
@@ -131,19 +136,23 @@ namespace Xml.Schema.Linq {
             this.nameTransitions = nameTrans;
             this.wildCardTransitions = wildCardTrans;
         }
-        
-        internal void Add(XName name, int nextState) {
-            if (nameTransitions==null) {
-               nameTransitions = new Dictionary<XName,int>();
+
+        internal static void Add<T>(ref Dictionary<T, int> d, T id, int nextState)
+        {
+            if (d == null)
+            {
+                d = new Dictionary<T, int>();
             }
-            nameTransitions[name] = nextState;
+            d[id] = nextState;
         }
 
+       
+        internal void Add(XName name, int nextState) {
+            Add(ref this.nameTransitions, name, nextState);
+         }
+
         internal void Add(WildCard wildCard, int nextState) {
-            if (wildCardTransitions == null) {
-                wildCardTransitions = new Dictionary<WildCard,int>();
-            }
-            wildCardTransitions[wildCard] = nextState;
+            Add(ref this.wildCardTransitions, wildCard, nextState);
         }
 
 

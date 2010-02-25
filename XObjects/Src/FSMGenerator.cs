@@ -59,6 +59,56 @@ namespace Xml.Schema.Linq.CodeGen {
             return origFsm;
         }
 
+        private void TransformToStar<T>(
+            Dictionary<T, int> transitions, 
+            int startState,
+            int currentState,
+            FSM fsm, 
+            Set<int> visited)
+        {
+            if (transitions != null)
+            {
+                List<T> toReroute = null;
+                foreach (var transition in transitions)
+                {
+                    int nextState = transition.Value;
+                    bool hasNextStates =
+                        currentState != nextState && 
+                        this.HasNextStates(nextState, fsm);
+                    if (fsm.isAccept(nextState))
+                    {
+                        if (hasNextStates)
+                        {
+                            // see http://linqtoxsd.codeplex.com/WorkItem/View.aspx?WorkItemId=4083
+                            if (!visited.Contains(nextState))
+                            {
+                                this.SimulatePlusQMark(fsm, startState, nextState);
+                            }
+                        }
+                        else
+                        {
+                            if (toReroute == null)
+                            {
+                                toReroute = new List<T>();
+                            }
+                            toReroute.Add(transition.Key);
+                        }
+                    }
+                    if (hasNextStates)
+                    {
+                        this.TransformToStar(startState, nextState, fsm, visited);
+                    }
+                }
+                if (toReroute != null)
+                {
+                    foreach (var id in toReroute)
+                    {
+                        transitions.Add(id, startState);
+                    }
+                }
+            }
+        }
+
         private void TransformToStar(int start, int currState, FSM fsm, Set<int> visited) {
             if (visited.Contains(currState)) return;
             else visited.Add(currState);
@@ -67,61 +117,10 @@ namespace Xml.Schema.Linq.CodeGen {
             fsm.Trans.TryGetValue(currState, out currTrans);
             if (currTrans == null || currTrans.Count == 0) return;
 
-            List<XName> namesToReroute = null;
-            if (currTrans.nameTransitions != null) {
-                foreach(KeyValuePair<XName, int> pair in currTrans.nameTransitions) {
-                    XName name = pair.Key;
-                    int nextState = pair.Value;
-                    
-                    bool hasNextStates = currState != nextState && HasNextStates(nextState, fsm);
-                    if (fsm.isAccept(nextState)) {
-                        if (hasNextStates) {
-                            if (!visited.Contains(nextState))
-                            {
-                                SimulatePlusQMark(fsm, start, nextState);
-                            }
-                        }
-                        else {
-                            if (namesToReroute == null) namesToReroute = new List<XName>();
-                            namesToReroute.Add(name);
-                        }
-                   }
-                   if (hasNextStates) TransformToStar(start, nextState, fsm, visited);
-               }
-
-                if (namesToReroute != null) {
-                    foreach(XName name in namesToReroute) {
-                        currTrans.Add(name, start);
-                    }
-                }
-            }
-
-            List<WildCard> anyToReroute = null;
-            if (currTrans.wildCardTransitions != null) {
-                foreach(KeyValuePair<WildCard, int> pair in currTrans.wildCardTransitions) {
-                    WildCard wildCard = pair.Key;
-                    int nextState = pair.Value;
-                    bool hasNextStates = currState != nextState && HasNextStates(nextState, fsm);
-
-                    if (fsm.isAccept(nextState)) {
-                        if (hasNextStates) {
-                            SimulatePlusQMark(fsm, start, nextState);
-                        }
-                        else {
-                            if (anyToReroute == null) anyToReroute = new List<WildCard>();
-                            anyToReroute.Add(wildCard);
-                        }
-                    }
-                    if (hasNextStates) TransformToStar(start, nextState, fsm, visited);
-                }
-
-                if (anyToReroute != null) {
-                    foreach(WildCard wildCard in anyToReroute) {
-                        currTrans.Add(wildCard, start);
-                    }
-                }
-            }
-
+            this.TransformToStar(
+                currTrans.nameTransitions, start, currState, fsm, visited);
+            this.TransformToStar(
+                currTrans.wildCardTransitions, start, currState, fsm, visited);
         }
 
         private void SimulatePlusQMark(FSM fsm, int start, int currState) {
