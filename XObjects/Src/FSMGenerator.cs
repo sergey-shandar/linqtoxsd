@@ -76,7 +76,10 @@ namespace Xml.Schema.Linq.CodeGen {
                     bool hasNextStates = currState != nextState && HasNextStates(nextState, fsm);
                     if (fsm.isAccept(nextState)) {
                         if (hasNextStates) {
-                            SimulatePlusQMark(fsm, start, nextState);
+                            if (!visited.Contains(nextState))
+                            {
+                                SimulatePlusQMark(fsm, start, nextState);
+                            }
                         }
                         else {
                             if (namesToReroute == null) namesToReroute = new List<XName>();
