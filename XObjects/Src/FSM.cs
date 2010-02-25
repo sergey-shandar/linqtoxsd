@@ -181,14 +181,15 @@ namespace Xml.Schema.Linq {
                 }
                 
                 foreach(KeyValuePair<XName, int> pair in otherTransitions.nameTransitions) {
-                   int nextState = pair.Value;                   
+                    int nextState = pair.Value;                   
 
                     //An optimization: if my transition is empty, even copy self-loop
-                   if (isEmpty && (nextState == srcState)) nextState = destState;
+                    if (isEmpty && (nextState == srcState)) nextState = destState;
 
-                   nameTransitions[pair.Key] = nextState; //This would silently overwrite the value for an existing key
-                                                    //The assumption is due to UPA, if there are two same transitions
-                                                    //they should lead to the same state
+                    // This would silently overwrite the value for an existing key
+                    // The assumption is due to UPA, if there are two same transitions
+                    // they should lead to the same state
+                    nameTransitions[pair.Key] = nextState;
                 }
                 
             }
