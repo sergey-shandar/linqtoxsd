@@ -34,7 +34,9 @@ namespace Xml.Schema.Linq.CodeGen
         static CodeStatementCollection elementDictionaryAddStatements;
         static CodeStatementCollection wrapperDictionaryAddStatements;
 
-        public CodeDomTypesGenerator() : this(new LinqToXsdSettings()) {
+        public CodeDomTypesGenerator(bool nameMangler2) : 
+            this(new LinqToXsdSettings(nameMangler2)) 
+        {
         }
 
         public CodeDomTypesGenerator(LinqToXsdSettings settings) {

@@ -18,6 +18,7 @@ namespace XObjectsGenerator
     class XObjectsGenerator {
 
         private static Assembly ThisAssembly;
+
         public static int Main(string[] args) {
 
             ThisAssembly  = Assembly.GetExecutingAssembly();
@@ -29,6 +30,7 @@ namespace XObjectsGenerator
             string assemblyName = string.Empty;
             bool fSourceNameProvided = false;
             bool xmlSerializable = false;
+            bool nameMangler2 = false;
 
             if (args.Length == 0) {
                 PrintHelp();
@@ -78,6 +80,10 @@ namespace XObjectsGenerator
                 {
                     assemblyName = value;
                 }
+                else if (ArgumentMatch(arg, "namemangler2"))
+                {
+                    nameMangler2 = true;
+                }
             }
             if(assemblyName != string.Empty && !fSourceNameProvided)
             { //only generate assembly
@@ -87,7 +93,8 @@ namespace XObjectsGenerator
             set.ValidationEventHandler  -= veh;
             if (set.Count > 0 && set.IsCompiled) {
                 try {
-                    GenerateXObjects(set, csFileName, configFileName, assemblyName, xmlSerializable);
+                    GenerateXObjects(
+                        set, csFileName, configFileName, assemblyName, xmlSerializable, nameMangler2);
                 }
                 catch(Exception e) {
                     PrintErrorMessage(e.ToString());
@@ -97,8 +104,10 @@ namespace XObjectsGenerator
             return 0;
         }
 
-        static void GenerateXObjects(XmlSchemaSet set, string csFileName, string configFileName, string assemblyName, bool xmlSerializable) {
-            LinqToXsdSettings configSettings = new LinqToXsdSettings();
+        static void GenerateXObjects(
+            XmlSchemaSet set, string csFileName, string configFileName, string assemblyName, bool xmlSerializable, bool nameMangler2) 
+        {
+            LinqToXsdSettings configSettings = new LinqToXsdSettings(nameMangler2);
             if (configFileName != null) {
                 configSettings.Load(configFileName);
             }
@@ -181,7 +190,7 @@ namespace XObjectsGenerator
             string name = ThisAssembly.GetName().Name;
             Console.WriteLine();
             Console.WriteLine(name + " - " + "Utility to generate typed wrapper classes from a XML Schema");
-            Console.WriteLine("Usage: " + name + " <schemaFile> [one or more schema files] [/fileName:<csFileName>.cs] [/lib:<assemblyName>] [/config:<configFileName>.xml [/enableServiceReference]");
+            Console.WriteLine("Usage: " + name + " <schemaFile> [one or more schema files] [/fileName:<csFileName>.cs] [/lib:<assemblyName>] [/config:<configFileName>.xml] [/enableServiceReference] [/nameMangler2]");
         }
 
         private static void ValidationCallback(object sender, ValidationEventArgs args) {

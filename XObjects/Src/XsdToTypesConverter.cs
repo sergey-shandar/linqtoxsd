@@ -33,8 +33,8 @@ namespace Xml.Schema.Linq.CodeGen
 
         Dictionary<XmlQualifiedName, ArrayList> substitutionGroups;
 
-        public XsdToTypesConverter()
-            : this(new LinqToXsdSettings())
+        public XsdToTypesConverter(bool nameMangler2)
+            : this(new LinqToXsdSettings(nameMangler2))
         {
         }
 

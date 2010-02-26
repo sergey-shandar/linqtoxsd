@@ -81,7 +81,7 @@ namespace Xml.Schema.Linq.CodeGen
             return Constants.LinqToXsdTypeManager;
         }
 
-        public static string MakeValidCLRNamespace(string xsdNamespace)
+        public static string MakeValidCLRNamespace(string xsdNamespace, bool nameMangler2)
         {
             if (xsdNamespace == null || xsdNamespace == string.Empty)
             {
@@ -93,6 +93,10 @@ namespace Xml.Schema.Linq.CodeGen
                 return string.Empty;
             }
 
+            if (nameMangler2)
+            {
+                xsdNamespace = xsdNamespace.Replace('.', '_').Replace('-', '_');
+            }
             string[] pieces = xsdNamespace.Split(new char[] 
             { '/', '.', ':', '-' });
             string clrNS = NameGenerator.MakeValidIdentifier(pieces[0]);
