@@ -377,6 +377,13 @@ namespace Xml.Schema.Linq {
             return newObject;
         }
 
+        public static T Load<T>(System.IO.TextReader reader) where T : XTypedElement, new()
+        {
+            XDocument doc = XDocument.Load(reader);
+            XElement xeroot = doc.Root;
+            return ToXTypedElement<T>(xeroot);
+        }
+
         public static T Load<T>(string uri) where T : XTypedElement, new() {
             XDocument doc = XDocument.Load(uri);
             XElement xeroot = doc.Root;
@@ -385,6 +392,15 @@ namespace Xml.Schema.Linq {
 
         public static W Load<W, T>(string uri, ILinqToXsdTypeManager typeManager) where T : XTypedElement where W : XTypedElement {
             XDocument doc = XDocument.Load(uri);
+            XElement xeroot = doc.Root;
+            return ToXTypedElement<W, T>(xeroot, typeManager);
+        }
+
+        public static W Load<W, T>(System.IO.TextReader reader, ILinqToXsdTypeManager typeManager)
+            where T : XTypedElement
+            where W : XTypedElement
+        {
+            XDocument doc = XDocument.Load(reader);
             XElement xeroot = doc.Root;
             return ToXTypedElement<W, T>(xeroot, typeManager);
         }

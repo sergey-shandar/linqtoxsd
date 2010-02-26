@@ -145,7 +145,11 @@ namespace Xml.Schema.Linq.CodeGen
 
             bool useAutoTyping = clrTypeInfo.IsAbstract || clrTypeInfo.IsSubstitutionHead;
             if (clrTypeInfo.typeOrigin == SchemaOrigin.Element) { //Disable load and parse for complex types
-                CodeTypeMember load = CodeDomHelper.CreateStaticMethod("Load", clrTypeName, innerType, "xmlFile", "System.String", useAutoTyping);
+                CodeTypeMember load = CodeDomHelper.CreateStaticMethod(
+                    "Load", clrTypeName, innerType, "xmlFile", "System.String", useAutoTyping);
+                // http://linqtoxsd.codeplex.com/WorkItem/View.aspx?WorkItemId=4093
+                var loadReader = CodeDomHelper.CreateStaticMethod(
+                    "Load", clrTypeName, innerType, "xmlFile", "System.IO.TextReader", useAutoTyping);
                 CodeTypeMember parse = CodeDomHelper.CreateStaticMethod("Parse", clrTypeName, innerType, "xml", "System.String", useAutoTyping);
                 if (clrTypeInfo.IsDerived) {
                     load.Attributes |= MemberAttributes.New;
@@ -157,6 +161,7 @@ namespace Xml.Schema.Linq.CodeGen
                     decl.Members.Add(CodeDomHelper.CreateSave("xmlWriter", "System.Xml.XmlWriter"));
                 }                
                 decl.Members.Add(load);
+                decl.Members.Add(loadReader);
                 decl.Members.Add(parse);
             }       
                      
