@@ -93,12 +93,8 @@ namespace Xml.Schema.Linq.CodeGen
                 return string.Empty;
             }
 
-            char[] splitters = new char[4];
-            splitters[0]='/';
-            splitters[1]='.';
-            splitters[2]=':';
-            splitters[3]='-';
-            string[] pieces = xsdNamespace.Split(splitters);
+            string[] pieces = xsdNamespace.Split(new char[] 
+            { '/', '.', ':', '-' });
             string clrNS = NameGenerator.MakeValidIdentifier(pieces[0]);
             for(int i =1; i< pieces.Length; i++)
             {
