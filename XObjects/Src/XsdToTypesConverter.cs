@@ -752,8 +752,11 @@ namespace Xml.Schema.Linq.CodeGen
                 }
                 XmlSchemaAttribute baseAttribute = baseAttributes[derivedAttribute.QualifiedName] as XmlSchemaAttribute;
                 if (baseAttribute != null && baseAttribute == derivedAttribute)
-                { //Its the one copied from the base
-                    ClrBasePropertyInfo propertyInfo = BuildProperty(derivedAttribute, true, false);
+                { 
+                    // Its the one copied from the base
+                    // http://linqtoxsd.codeplex.com/WorkItem/View.aspx?WorkItemId=3064
+                    ClrBasePropertyInfo propertyInfo = BuildProperty(
+                        derivedAttribute, typeInfo.IsDerived, false);
                     BuildAnnotationInformation(propertyInfo, derivedAttribute, false, false);
                     typeInfo.AddMember(propertyInfo);
                 }
