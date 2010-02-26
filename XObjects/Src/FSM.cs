@@ -92,7 +92,7 @@ namespace Xml.Schema.Linq {
     public class Transitions {
         internal Dictionary<XName, int> nameTransitions;
         internal Dictionary<WildCard, int> wildCardTransitions;
-        
+                
         internal bool IsEmpty {
             get {
                  return Count == 0;
@@ -140,11 +140,10 @@ namespace Xml.Schema.Linq {
             }
             d[id] = nextState;
         }
-
-       
+        
         internal void Add(XName name, int nextState) {
             Add(ref this.nameTransitions, name, nextState);
-         }
+        }
 
         internal void Add(WildCard wildCard, int nextState) {
             Add(ref this.wildCardTransitions, wildCard, nextState);

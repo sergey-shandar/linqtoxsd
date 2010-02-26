@@ -60,10 +60,10 @@ namespace Xml.Schema.Linq.CodeGen {
         }
 
         private void TransformToStar<T>(
-            Dictionary<T, int> transitions, 
+            Dictionary<T, int> transitions,
             int startState,
             int currentState,
-            FSM fsm, 
+            FSM fsm,
             Set<int> visited)
         {
             if (transitions != null)
@@ -73,7 +73,7 @@ namespace Xml.Schema.Linq.CodeGen {
                 {
                     int nextState = transition.Value;
                     bool hasNextStates =
-                        currentState != nextState && 
+                        currentState != nextState &&
                         this.HasNextStates(nextState, fsm);
                     if (fsm.isAccept(nextState))
                     {
@@ -103,13 +103,14 @@ namespace Xml.Schema.Linq.CodeGen {
                 {
                     foreach (var id in toReroute)
                     {
-                        transitions.Add(id, startState);
+                        transitions[id] = startState;
                     }
                 }
             }
         }
 
-        private void TransformToStar(int start, int currState, FSM fsm, Set<int> visited) {
+        private void TransformToStar(int start, int currState, FSM fsm, Set<int> visited)
+        {
             if (visited.Contains(currState)) return;
             else visited.Add(currState);
 
