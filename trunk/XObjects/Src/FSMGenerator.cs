@@ -68,7 +68,7 @@ namespace Xml.Schema.Linq.CodeGen {
         {
             if (transitions != null)
             {
-                List<T> toReroute = null;
+                var toReroute = new List<T>();
                 foreach (var transition in transitions)
                 {
                     int nextState = transition.Value;
@@ -87,10 +87,6 @@ namespace Xml.Schema.Linq.CodeGen {
                         }
                         else
                         {
-                            if (toReroute == null)
-                            {
-                                toReroute = new List<T>();
-                            }
                             toReroute.Add(transition.Key);
                         }
                     }
@@ -99,12 +95,9 @@ namespace Xml.Schema.Linq.CodeGen {
                         this.TransformToStar(startState, nextState, fsm, visited);
                     }
                 }
-                if (toReroute != null)
+                foreach (var id in toReroute)
                 {
-                    foreach (var id in toReroute)
-                    {
-                        transitions[id] = startState;
-                    }
+                    transitions[id] = startState;
                 }
             }
         }
