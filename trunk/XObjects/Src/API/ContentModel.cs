@@ -226,7 +226,10 @@ namespace Xml.Schema.Linq {
         internal void AddElementInPosition(XName name, XElement parentElement, bool addToExisting, XTypedElement xObj) {
             NamedContentModelEntity namedEntity = GetNamedEntity(name);
             if (namedEntity == null) {
-                throw new LinqToXsdException("Name does not belong in content model. Cannot set value for child " + namedEntity.Name);
+                // See http://linqtoxsd.codeplex.com/WorkItem/View.aspx?WorkItemId=3542
+                throw new LinqToXsdException(
+                    "Name does not belong in content model. Cannot set value for child " +
+                    name.LocalName);
             }
             EditAction editAction = EditAction.None;
             XElement elementMarker = FindElementPosition(namedEntity, parentElement, addToExisting, out editAction);
