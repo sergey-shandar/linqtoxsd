@@ -934,7 +934,8 @@ namespace Xml.Schema.Linq.CodeGen
             propertyInfo.VerifyRequired = configSettings.VerifyRequired;
 
             XmlSchemaSimpleType schemaType = attribute.AttributeSchemaType;
-            ClrTypeReference typeRef = BuildTypeReference(schemaType, attribute.AttributeSchemaType.QualifiedName, false, false);
+            // http://linqtoxsd.codeplex.com/WorkItem/View.aspx?WorkItemId=4106
+            ClrTypeReference typeRef = BuildTypeReference(schemaType, attribute.AttributeSchemaType.QualifiedName, false, true);
             propertyInfo.TypeReference = typeRef;
             Debug.Assert(schemaType.Datatype != null);
             SetFixedDefaultValue(attribute, propertyInfo);
