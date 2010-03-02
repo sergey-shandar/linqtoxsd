@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:o="urn:schemas-microsoft-com:office:office" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:schemas-microsoft-com:office:spreadsheet" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="urn:schemas-microsoft-com:office:office" />
+  <xs:import namespace="urn:schemas-microsoft-com:office:excel" />
+  <xs:element name="Workbook">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="o:DocumentProperties" />
+        <xs:element ref="x:ExcelWorkbook" />
+        <xs:element name="Styles">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Style">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Alignment">
+                      <xs:complexType>
+                        <xs:attribute ref="ss:Vertical" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Borders" />
+                    <xs:element name="Font" />
+                    <xs:element name="Interior" />
+                    <xs:element name="NumberFormat" />
+                    <xs:element name="Protection" />
+                  </xs:sequence>
+                  <xs:attribute ref="ss:ID" use="required" />
+                  <xs:attribute ref="ss:Name" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Worksheet">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Table">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="unbounded" name="Row">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="unbounded" name="Cell">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Data">
+                                  <xs:complexType>
+                                    <xs:simpleContent>
+                                      <xs:extension base="xs:string">
+                                        <xs:attribute ref="ss:Type" use="required" />
+                                      </xs:extension>
+                                    </xs:simpleContent>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute ref="ss:ExpandedColumnCount" use="required" />
+                  <xs:attribute ref="ss:ExpandedRowCount" use="required" />
+                  <xs:attribute ref="x:FullColumns" use="required" />
+                  <xs:attribute ref="x:FullRows" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element ref="x:WorksheetOptions" />
+            </xs:sequence>
+            <xs:attribute ref="ss:Name" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:attribute name="ID" type="xs:string" />
+  <xs:attribute name="Name" type="xs:string" />
+  <xs:attribute name="Vertical" type="xs:string" />
+  <xs:attribute name="ExpandedColumnCount" type="xs:unsignedByte" />
+  <xs:attribute name="ExpandedRowCount" type="xs:unsignedByte" />
+  <xs:attribute name="Type" type="xs:string" />
+</xs:schema>

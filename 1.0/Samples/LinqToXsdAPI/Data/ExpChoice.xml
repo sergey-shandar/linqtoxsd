@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- add(succ(zero),zero) = 1 -->
+<exp  xmlns="http://LinqToXsdSamples/Schemas/ExpChoice">
+  <add>
+    <exp>
+      <succ>
+        <exp>
+          <zero/>
+        </exp>
+      </succ>
+    </exp>
+    <exp>
+      <zero/>
+    </exp>
+  </add>
+</exp>

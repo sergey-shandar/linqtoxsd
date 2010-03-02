@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema 
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://www.vertical.com/Invoice"
+  elementFormDefault="qualified">
+
+  <element name="Invoice">
+    <complexType>
+      <sequence>
+        <element name="Name" type="string"/>
+        <element name="Street" type="string"/>
+        <element name="City" type="string"/>
+        <element name="Zip" type="string"/>
+        <element name="State" type="string"/>
+        <element name="Position" maxOccurs="unbounded">
+          <complexType>
+            <sequence>
+              <element name="ProdId" type="string"/>
+              <element name="Price" type="double"/>
+              <element name="Quantity" type="int"/>
+            </sequence>
+          </complexType>
+        </element>
+        <element name="Total" type="double"/>
+      </sequence>
+    </complexType>
+  </element>
+</schema>

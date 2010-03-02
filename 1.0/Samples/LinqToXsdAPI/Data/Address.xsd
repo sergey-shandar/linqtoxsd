@@ -1,0 +1,51 @@
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://www.example.com/Address"
+  xmlns="http://www.example.com/Address"
+  elementFormDefault="qualified">
+
+  <xs:element name="Address" type="USAddress"/>
+
+  <xs:complexType name="IntlStreetAddress">
+    <xs:sequence>
+      <xs:element name="Street" type="xs:string"/>
+      <xs:element name="City" type="xs:string"/>
+      <xs:element name="Zip" type="xs:int"/>
+      <xs:element name="State" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="Country" type="xs:string" default="US"/>
+  </xs:complexType>
+  
+  <xs:complexType name="USAddress">
+    <xs:sequence>
+      <xs:choice>
+        <xs:element name="Street" type="xs:string"/>
+        <xs:element name="POBox" type="xs:int"/>
+      </xs:choice>
+      <xs:element name="City" type="xs:string"/>
+      <xs:element name="Zip" type="xs:int"/>
+      <xs:element name="State" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="USStreetAddress1">
+    <xs:sequence>
+      <xs:element name="Street1" type="xs:string"/>
+      <xs:element name="Street2" type="xs:string"/>
+      <xs:element name="City" type="xs:string"/>
+      <xs:element name="Zip" type="xs:int"/>
+      <xs:element name="State" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="USStreetAddress2">
+    <xs:sequence>
+      <xs:element name="Street" type="xs:string"/>
+      <xs:element name="Street" type="xs:string" minOccurs="0"/>
+      <xs:element name="City" type="xs:string"/>
+      <xs:element name="Zip" type="xs:int"/>
+      <xs:element name="State" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

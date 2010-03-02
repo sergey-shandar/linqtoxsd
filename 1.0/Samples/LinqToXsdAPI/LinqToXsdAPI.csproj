@@ -1,0 +1,120 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C5B73548-5A95-4178-9839-48ADE4FE58AC}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LinqToXsdAPI</RootNamespace>
+    <AssemblyName>LinqToXsdAPI</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Samples\Ancestors.cs" />
+    <Compile Include="Samples\Child.cs" />
+    <Compile Include="Samples\Clone.cs" />
+    <Compile Include="Samples\Append.cs" />
+    <Compile Include="Samples\Cast.cs" />
+    <Compile Include="Samples\Any.cs" />
+    <Compile Include="Samples\Default.cs" />
+    <Compile Include="Samples\Descendants.cs" />
+    <Compile Include="Samples\New.cs" />
+    <Compile Include="Samples\Parent.cs" />
+    <Compile Include="Samples\Remove.cs" />
+    <Compile Include="Samples\Untyped.cs" />
+    <Compile Include="RunAll.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Baselines\Ancestors.xml" />
+    <Content Include="Baselines\Append.xml" />
+    <Content Include="Baselines\Clone.xml" />
+    <Content Include="Baselines\Any.xml" />
+    <Content Include="Baselines\Child.xml" />
+    <Content Include="Baselines\Descendants.xml" />
+    <Content Include="Baselines\New.xml" />
+    <Content Include="Baselines\Untyped.xml" />
+    <Content Include="Data\Company.xml" />
+    <Content Include="Data\Address.xml" />
+    <Content Include="Data\Wild.xml" />
+    <Content Include="Data\ExpChoice.xml" />
+    <Content Include="Data\ExpSubst.xml" />
+    <Content Include="Data\po1.xml" />
+    <Content Include="Data\Tricky.xml" />
+    <Content Include="Data\Orders.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <LinqToXsdSchema Include="Data\Company.xsd">
+      <SubType>
+      </SubType>
+    </LinqToXsdSchema>
+    <LinqToXsdSchema Include="Data\Orders.xsd">
+      <SubType>
+      </SubType>
+    </LinqToXsdSchema>
+  </ItemGroup>
+  <ItemGroup>
+    <LinqToXsdConfiguration Include="Config.xo" />
+    <LinqToXsdSchema Include="Data\Address.xsd">
+      <SubType>
+      </SubType>
+    </LinqToXsdSchema>
+    <LinqToXsdSchema Include="Data\ExpSubst.xsd">
+      <SubType>
+      </SubType>
+    </LinqToXsdSchema>
+    <LinqToXsdSchema Include="Data\ExpChoice.xsd">
+      <SubType>
+      </SubType>
+    </LinqToXsdSchema>
+    <LinqToXsdSchema Include="Data\po1.xsd">
+      <SubType>
+      </SubType>
+    </LinqToXsdSchema>
+    <LinqToXsdSchema Include="Data\Wild.xsd">
+      <SubType>
+      </SubType>
+    </LinqToXsdSchema>
+    <LinqToXsdSchema Include="Data\Tricky.xsd">
+      <SubType>
+      </SubType>
+    </LinqToXsdSchema>
+    <LinqToXsdSchema Include="Data\xsdschema.xsd">
+      <SubType>
+      </SubType>
+    </LinqToXsdSchema>
+  </ItemGroup>
+  <PropertyGroup>
+    <LinqToXsdBinDir Condition="'$(LinqToXsdBinDir)' == ''">$(SolutionDir)</LinqToXsdBinDir>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(LinqToXsdBinDir)\LinqToXsd.targets" />
+</Project>
