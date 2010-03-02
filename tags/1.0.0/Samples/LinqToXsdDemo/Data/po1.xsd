@@ -1,0 +1,90 @@
+<!--* po1.xsd, from http://www.w3.org/TR/xmlschema-0/#UnqualLocals *-->
+<!--* Retrieved 2002-12-20 *-->
+<!--* Expanded to be a complete schema by MSM *-->
+<!--* 2004-12-27 : correct typo, qualify reference to comment in item *-->
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:po="http://www.example.com/PO1"
+        targetNamespace="http://www.example.com/PO1"
+        elementFormDefault="unqualified"
+        attributeFormDefault="unqualified">
+
+ <element name="purchaseOrder" type="po:PurchaseOrderType"/>
+ <element name="comment"       type="string"/>
+
+ <complexType name="PurchaseOrderType">
+  <sequence>
+    <element name="shipTo"    type="po:USAddress">
+      <annotation>
+        <documentation>
+          The shipping address for the purchase order.
+          There is also a billing address.
+        </documentation>
+      </annotation>
+    </element>
+     <element name="billTo"    type="po:USAddress">
+      <annotation>
+        <documentation>
+          The billing address for the purchase order.
+          There is also a shipping address.
+        </documentation>
+      </annotation>
+    </element>
+   <element ref="po:comment" minOccurs="0"/>
+   <!-- etc. -->
+   <element name="items"  type="po:Items"/>
+   <!-- ... end expansion. -->
+  </sequence>
+  <!-- etc. -->
+  <attribute name="orderDate" type="date"/>
+  <!-- ... end expansion. -->
+ </complexType>
+
+ <complexType name="USAddress">
+  <sequence>
+   <element name="name"   type="string"/>
+   <element name="street" type="string"/>
+   <!-- etc. -->
+   <element name="city"   type="string"/>
+   <element name="state"  type="string"/>
+   <element name="zip"    type="decimal"/>
+  </sequence>
+  <attribute name="country" type="NMTOKEN"
+     fixed="US"/>
+  <!-- ... end expansion. -->
+ </complexType>
+
+ <!-- etc. -->
+ <complexType name="Items">
+  <sequence>
+   <element name="item" minOccurs="0" maxOccurs="unbounded">
+    <complexType>
+     <sequence>
+      <element name="productName" type="string"/>
+      <element name="quantity">
+       <simpleType>
+        <restriction base="positiveInteger">
+         <maxExclusive value="100"/>
+        </restriction>
+       </simpleType>
+      </element>
+      <element name="USPrice"  type="decimal"/>
+      <element ref="po:comment"   minOccurs="0"/>
+      <element name="shipDate" type="date" minOccurs="0"/>
+     </sequence>
+     <attribute name="partNum" type="po:SKU" use="required"/>
+    </complexType>
+   </element>
+  </sequence>
+ </complexType>
+
+ <!-- Stock Keeping Unit, a code for identifying products -->
+ <simpleType name="SKU">
+  <restriction base="string">
+   <pattern value="\d{3}-[A-Z]{2}"/>
+  </restriction>
+ </simpleType>
+ <!-- ... end expansion. -->
+
+</schema>
+

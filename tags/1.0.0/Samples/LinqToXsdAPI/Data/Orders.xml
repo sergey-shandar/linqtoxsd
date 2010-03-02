@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Batch xmlns="http://www.example.com/Orders">
+  <PurchaseOrder>
+    <CustId>0815</CustId>
+    <Item>
+      <ProdId>1234</ProdId>
+      <Price>37</Price>
+      <Quantity>2</Quantity>
+    </Item>
+    <Item>
+      <ProdId>5678</ProdId>
+      <Price>1.5</Price>
+      <Quantity>3</Quantity>
+    </Item>
+  </PurchaseOrder>
+  <PurchaseOrder>
+    <CustId>1324</CustId>
+    <Item>
+      <ProdId>7788</ProdId>
+      <Price>42</Price>
+      <Quantity>1</Quantity>
+    </Item>
+  </PurchaseOrder>
+</Batch>

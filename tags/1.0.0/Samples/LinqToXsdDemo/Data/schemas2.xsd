@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="urn:schemas-microsoft-com:office:excel" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:schemas-microsoft-com:office:excel" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="ExcelWorkbook">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="WindowHeight" type="xs:unsignedShort" />
+        <xs:element name="WindowWidth" type="xs:unsignedShort" />
+        <xs:element name="WindowTopX" type="xs:unsignedShort" />
+        <xs:element name="WindowTopY" type="xs:unsignedByte" />
+        <xs:element name="ProtectStructure" type="xs:string" />
+        <xs:element name="ProtectWindows" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:attribute name="FullColumns" type="xs:unsignedByte" />
+  <xs:attribute name="FullRows" type="xs:unsignedByte" />
+  <xs:element name="WorksheetOptions">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Selected" />
+        <xs:element name="Panes">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Pane">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Number" type="xs:unsignedByte" />
+                    <xs:element name="ActiveRow" type="xs:unsignedByte" />
+                    <xs:element name="ActiveCol" type="xs:unsignedByte" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ProtectObjects" type="xs:string" />
+        <xs:element name="ProtectScenarios" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
