@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="update.cs" />
     <Compile Include="XObjectsGenerator.cs" />
     <Compile Include="_info.cs" />
   </ItemGroup>

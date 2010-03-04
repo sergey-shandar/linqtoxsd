@@ -124,10 +124,18 @@ namespace XObjectsGenerator
             CSharpCodeProvider provider = new CSharpCodeProvider();
             if (csFileName != string.Empty)
             {
+                /*
                 StreamWriter sw = new StreamWriter(csFileName);
                 provider.GenerateCodeFromCompileUnit(ccu, sw, new CodeGeneratorOptions());
                 sw.Flush(); 
                 sw.Close();
+                 * */
+                using (var update = 
+                    new Update(csFileName, System.Text.Encoding.UTF8))
+                {
+                    provider.GenerateCodeFromCompileUnit(
+                        ccu, update.Writer, new CodeGeneratorOptions());
+                }
                 PrintMessage(csFileName);
             }
             if(assemblyName != string.Empty)
