@@ -71,9 +71,8 @@
 		[S.STAThread]
 		static void Main(string[] args)
 		{
-            // binary folder.
-            var binDir = 
-                args.Length > 0 ? args[0] : "../../../XObjects/bin";
+			// binary folder.
+			var binDir = args.Length > 0 ? args[0] : "../../../XObjects/bin";
 			var version = Version3 + "." + Revision();
 			{
 				var engine = new E.Engine();
