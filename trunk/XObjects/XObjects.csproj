@@ -12,10 +12,9 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <StartupObject>
     </StartupObject>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
     <DelaySign>true</DelaySign>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>0.0</OldToolsVersion>
@@ -93,6 +92,9 @@
     <Compile Include="Src\XsdToTypesConverter.cs" />
     <Compile Include="Src\SimpleTypeValidator.cs" />
     <Compile Include="_info.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="key.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
