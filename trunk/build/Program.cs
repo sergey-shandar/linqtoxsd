@@ -58,7 +58,7 @@
 			}
 		}
 
-		static void Build(E.Engine engine, string dir, string name, string version)
+		static void Build(E.Engine engine, string dir, string name, string version, string outDir)
 		{
 			dir = IO.Path.Combine(dir, name);
 			Create(dir, name, version);
@@ -66,14 +66,31 @@
 			{
 				throw new S.Exception("build failed");
 			}
+			var path = IO.Path.Combine(dir, "bin\\Debug");
+			var files = IO.Directory.GetFiles(path);
+			// copy all files.
+			foreach (var file in files)
+			{
+				var outFile = IO.Path.Combine(outDir, IO.Path.GetFileName(file));
+				IO.File.Copy(file, outFile, true);
+			}
 		}
 
 		[S.STAThread]
 		static void Main(string[] args)
 		{
 			// binary folder.
-			var binDir = args.Length > 0 ? args[0] : "../../../XObjects/bin";
 			var version = Version3 + "." + Revision();
+			var fileName = "linqtoxsd." + version + "-bin";
+			var dirName = fileName;
+			try
+			{
+				IO.Directory.Delete(dirName, true);
+			}
+			catch (IO.DirectoryNotFoundException)
+			{
+			}
+			IO.Directory.CreateDirectory(dirName);
 			{
 				var engine = new E.Engine();
 				{
@@ -83,21 +100,12 @@
 					logger.Parameters = @"logfile=build.log";
 					engine.RegisterLogger(logger);
 				}
-				Build(engine, "../../..", XObjects, version);
-				Build(engine, "../../../XObjects", XOTask, version);
-				Build(engine, "../../../XObjects", Cmdline, version);
+				Build(engine, "..\\..\\..", XObjects, version, dirName);
+				Build(engine, "..\\..\\..\\XObjects", XOTask, version, dirName);
+				Build(engine, "..\\..\\..\\XObjects", Cmdline, version, dirName);
 				engine.UnregisterAllLoggers();
 			}
-			var fileName = "linqtoxsd." + version + "-bin";
-			var dirName = IO.Path.Combine(binDir, fileName);
-			try
-			{
-				IO.Directory.Delete(dirName, true);
-			}
-			catch (IO.DirectoryNotFoundException)
-			{
-			}
-			IO.Directory.Move(IO.Path.Combine(binDir, "Debug"), dirName);
+			// zipping:
 			var zipFile = fileName + ".zip";
 			IO.File.Delete(zipFile);
 			{
