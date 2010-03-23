@@ -62,5 +62,9 @@
         • Build your project, after your first build XSD namespaces and types will be available in intellisense.
 	• To see how you can integrate LINQ to XSD in your VB project please see LinqToXsdVB sample.
  
- 
+- How to build projects
+	• Checkout from https://linqtoxsd.svn.codeplex.com/svn/trunk. Note: do not export!
+	• Open "build/build.csproj" project in Visual C#.
+	• Run the project (press F5).
+	• The binary files are ready to use, see "build/bin/Debug/linqtoxsd.X.X.X.X-bin/" folder. 
  
