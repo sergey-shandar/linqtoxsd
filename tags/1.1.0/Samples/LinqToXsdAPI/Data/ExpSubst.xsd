@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://LinqToXsdSamples/Schemas/ExpSubst"
+  xmlns="http://LinqToXsdSamples/Schemas/ExpSubst"
+  elementFormDefault="qualified">
+  <xs:element name="exp" type="exp" abstract="true"/>
+  <xs:complexType name="exp"/>
+  <xs:element name="zero" substitutionGroup="exp">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="exp"/>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="succ" substitutionGroup="exp">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="exp">
+          <xs:sequence>
+            <xs:element ref="exp"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="add" substitutionGroup="exp">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="exp">
+          <xs:sequence>
+            <xs:element ref="exp"/>
+            <xs:element ref="exp"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

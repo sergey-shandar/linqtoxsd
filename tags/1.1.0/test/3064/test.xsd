@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema 
+	targetNamespace="http://tempuri.org/XMLSchema.xsd"
+	elementFormDefault="qualified"
+	xmlns:T="http://tempuri.org/XMLSchema.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="library">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="T:definition">
+					<xs:attribute name="version" use="optional" type="xs:string"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="definition">
+		<xs:attribute name="uuid" type="xs:string"/>
+	</xs:complexType>
+
+</xs:schema>

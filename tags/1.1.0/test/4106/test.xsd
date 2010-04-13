@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	targetNamespace="example"
+	xmlns="example">
+
+	<xs:element name="Property">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="E" type="T"/>
+			</xs:sequence>
+			<xs:attribute name="A" type="T"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:simpleType name="T">
+		<xs:list itemType="xs:integer"/>
+	</xs:simpleType>
+
+</xs:schema>

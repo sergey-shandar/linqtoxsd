@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Salaries>
+  <Employee>
+    <Name>Merlin</Name>
+    <Salary>9999</Salary>
+  </Employee>
+  <Employee>
+    <Name>Karl</Name>
+    <Salary>3333</Salary>
+  </Employee>
+  <Employee>
+    <Name>Donald</Name>
+    <Salary>5555</Salary>
+  </Employee>
+  <Employee>
+    <Name>Douglas</Name>
+    <Salary>4242</Salary>
+  </Employee>
+  <Employee>
+    <Name>Peter</Name>
+    <Salary>4241</Salary>
+  </Employee>
+</Salaries>

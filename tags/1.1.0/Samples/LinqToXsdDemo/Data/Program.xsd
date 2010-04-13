@@ -1,0 +1,75 @@
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://www.example.com/Program"
+  xmlns="http://www.example.com/Program"
+  elementFormDefault="qualified">
+
+  <xs:element name="program" type="block"/>
+
+  <xs:complexType name="expr" abstract="true"/>
+
+  <xs:complexType name="constant">
+    <xs:complexContent>
+      <xs:extension base="expr">
+        <xs:choice>
+          <xs:element name="integer" type="xs:int"/>
+          <xs:element name="boolean" type="xs:boolean"/>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="variable">
+    <xs:complexContent>
+      <xs:extension base="expr">
+        <xs:sequence>
+          <xs:element name="id" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="block">
+    <xs:complexContent>
+      <xs:extension base="expr">
+        <xs:sequence>
+          <xs:element name="decl" type="decl" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="expr" type="expr" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="decl">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="type" type="type"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="type" abstract="true"/>
+
+  <xs:complexType name="integer">
+    <xs:complexContent>
+      <xs:extension base="type"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="boolean">
+    <xs:complexContent>
+      <xs:extension base="type"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="assign">
+    <xs:complexContent>
+      <xs:extension base="expr">
+        <xs:sequence>
+          <xs:element name="id" type="xs:string"/>
+          <xs:element name="rhs" type="expr"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,25 @@
+﻿<program
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.example.com/Program"
+  xsi:type="block">
+  <decl>
+    <id>a</id>
+    <type xsi:type="boolean"/>
+  </decl>
+  <decl>
+    <id>b</id>
+    <type xsi:type="boolean"/>
+  </decl>
+  <expr xsi:type="assign">
+    <id>a</id>
+    <rhs xsi:type="constant">
+      <boolean>true</boolean>
+    </rhs>
+  </expr>
+  <expr xsi:type="assign">
+    <id>b</id>
+    <rhs xsi:type="variable">
+      <id>a</id>
+    </rhs>
+  </expr>
+</program>
