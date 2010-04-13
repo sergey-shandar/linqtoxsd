@@ -10,13 +10,11 @@
 	static class Program
 	{
 		const string Company = "Microsoft";
-		const string Version3 = "1.1.0";
+		const string Version3 = "2.0.0";
 
 		const string XObjects = "XObjects";
 		const string XOTask = "XOTask";
 		const string Cmdline = "Cmdline";
-
-		// const string binDir = "c://bin";
 
 		static string Revision()
 		{
