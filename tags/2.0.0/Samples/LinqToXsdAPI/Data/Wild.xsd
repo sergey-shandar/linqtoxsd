@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://LinqToXsdSamples/Schemas/Wild"
+  xmlns="http://LinqToXsdSamples/Schemas/Wild"
+  elementFormDefault="qualified">
+  <xs:element name="Product">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Number" type="xs:string"/>
+        <xs:element name="Name" type="xs:string"/>
+        <xs:element name="Size" type="xs:string"/>
+        <xs:any minOccurs="0" maxOccurs="unbounded"
+                namespace="##other" processContents="lax"/>
+      </xs:sequence>
+      <xs:anyAttribute namespace="##other" processContents="skip"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

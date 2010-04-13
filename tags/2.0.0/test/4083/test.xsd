@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	targetNamespace="http://schemas.microsoft.com/wix/2006/wi"
+	xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+	<xs:element name="Property">
+		<xs:complexType mixed="true">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:sequence>
+					<xs:element name="RegistrySearch"/>
+					<xs:element name="RegistrySearchRef" minOccurs="0"/>
+					<xs:element name="DirectorySearch" minOccurs="0"/>
+				</xs:sequence>
+				<xs:any namespace="##other"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>
