@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Company xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.example.com/Company">
+  <Department Deptno="1">
+    <Label>
+      The top department
+    </Label>
+    <Manager>
+      <Name>Merlin</Name>
+      <Salary>9999</Salary>
+    </Manager>
+    <Member>
+      <Department Deptno="12">
+        <Label>
+          Development
+        </Label>
+        <Member>
+          <Employee>
+            <Name>Donald</Name>
+            <Salary>5555</Salary>
+          </Employee>
+        </Member>
+        <Member>
+          <Employee>
+            <Name>Karl</Name>
+            <Salary>3333</Salary>
+          </Employee>
+        </Member>
+      </Department>
+    </Member>
+    <Member>
+      <Employee>
+        <Name>Peter</Name>
+        <Salary>4241</Salary>
+      </Employee>
+    </Member>
+  </Department>
+</Company>
