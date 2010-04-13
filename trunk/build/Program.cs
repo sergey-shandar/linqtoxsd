@@ -5,6 +5,7 @@
 	using D = global::System.CodeDom;
 	using C = global::Microsoft.CSharp;
 	using E = global::Microsoft.Build.BuildEngine;
+  using BE = global::Microsoft.Build.Evaluation;
 	using SD = global::System.Diagnostics;
 
 	static class Program
@@ -56,11 +57,19 @@
 			}
 		}
 
-		static void Build(E.Engine engine, string dir, string name, string version, string outDir)
+		static void Build(
+			BE.ProjectCollection/*E.Engine*/ engine, 
+      string dir, 
+			string name, 
+			string version, 
+			string outDir)
 		{
 			dir = IO.Path.Combine(dir, name);
 			Create(dir, name, version);
-			if (!engine.BuildProjectFile(IO.Path.Combine(dir, name + ".csproj")))
+			var fileName = IO.Path.Combine(dir, name + ".csproj");
+			// if (!engine.BuildProjectFile(fileName))
+			var project = engine.LoadProject(fileName);
+			if(!project.Build())
 			{
 				throw new S.Exception("build failed");
 			}
@@ -90,7 +99,8 @@
 			}
 			IO.Directory.CreateDirectory(dirName);
 			{
-				var engine = new E.Engine();
+				// var engine = new E.Engine();
+				var engine = new BE.ProjectCollection();
 				{
 					// Instantiate a new FileLogger to generate build log
 					var logger = new E.FileLogger();
