@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Invoice xmlns="http://www.vertical.com/Invoice">
+  <Name>Fred Mueller</Name>
+  <Street>1234, BelRed Road</Street>
+  <City>Redmond</City>
+  <Zip>98052</Zip>
+  <State>WA</State>
+  <Position>
+    <ProdId>1234</ProdId>
+    <Price>37</Price>
+    <Quantity>2</Quantity>
+  </Position>
+  <Position>
+    <ProdId>5678</ProdId>
+    <Price>1.5</Price>
+    <Quantity>3</Quantity>
+  </Position>
+  <Total>78.5</Total>
+</Invoice>

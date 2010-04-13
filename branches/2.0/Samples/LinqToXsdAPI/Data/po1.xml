@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--* Further adapted (i.e., renamed) for use in LINQ to XSD *-->
+<!--* po1.xml, from http://www.w3.org/TR/xmlschema-0/#UnqualLocals *-->
+<!--* Retrieved 2002-12-20 *-->
+<!--* Expanded to be a complete document by MSM *-->
+
+<apo:PurchaseOrder xmlns:apo="http://www.example.com/PO1"
+                   OrderDate="1999-10-20">
+    <ShipTo Country="US">
+        <Name>Alice Smith</Name>
+        <Street>123 Maple Street</Street>
+        <!-- etc. -->
+        <City>Mill Valley</City>
+        <State>CA</State>
+        <Zip>90952</Zip>
+        <!-- ... end expansion. -->
+    </ShipTo>
+    <BillTo Country="US">
+        <Name>Robert Smith</Name>
+        <Street>8 Oak Avenue</Street>
+        <!-- etc. -->
+        <City>Old Town</City>
+        <State>PA</State>
+        <Zip>95819</Zip>
+        <!-- ... end expansion. -->
+    </BillTo>
+    <apo:Comment>Hurry, my lawn is going wild!</apo:Comment>
+    <!-- etc. -->
+    <Items>
+        <Item PartNum="872-AA">
+            <ProductName>Lawnmower</ProductName>
+            <Quantity>1</Quantity>
+            <USPrice>148.95</USPrice>
+            <apo:Comment>Confirm this is electric</apo:Comment>
+        </Item>
+        <Item PartNum="926-AA">
+            <ProductName>Baby Monitor</ProductName>
+            <Quantity>1</Quantity>
+            <USPrice>39.98</USPrice>
+            <ShipDate>1999-05-21</ShipDate>
+        </Item>
+    </Items>
+    <!-- ... end expansion. -->
+</apo:PurchaseOrder>

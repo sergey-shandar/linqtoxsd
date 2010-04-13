@@ -1,0 +1,42 @@
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://www.example.com/Company"
+  xmlns="http://www.example.com/Company"
+  elementFormDefault="qualified">
+
+  <xs:element name="Company">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Department" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Department">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Label" type="xs:string"/>
+        <xs:element name="Manager" type="EmployeeType" minOccurs="0"/>
+        <xs:element ref="Member" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="Deptno" type="xs:int"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Member">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element name="Employee" type="EmployeeType"/>
+        <xs:element ref="Department"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="EmployeeType">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string"/>
+      <xs:element name="Salary" type="xs:double"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
