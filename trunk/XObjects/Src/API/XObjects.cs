@@ -226,7 +226,7 @@ namespace Xml.Schema.Linq {
 
             XName elementName = schemaMetaData.SchemaName;
             Debug.Assert(elementName != null);
-            
+
             XElement element = new XElement(elementName);
             element.AddAnnotation(new XTypedElementAnnotation(this)); //Link xelement and XTypedElement
             return element;
