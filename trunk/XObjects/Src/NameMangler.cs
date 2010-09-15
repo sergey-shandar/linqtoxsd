@@ -120,6 +120,7 @@ namespace Xml.Schema.Linq.CodeGen
                 {
                     identifierName = "_" + identifierName;
                 }
+                identifierName = identifierName.Replace('.', '_').Replace('-', '_');
             }
             else
             {
