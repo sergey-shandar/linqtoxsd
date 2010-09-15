@@ -97,19 +97,32 @@ namespace Xml.Schema.Linq.CodeGen
             {
                 xsdNamespace = xsdNamespace.Replace('.', '_').Replace('-', '_');
             }
-            string[] pieces = xsdNamespace.Split(new char[] 
-            { '/', '.', ':', '-' });
-            string clrNS = NameGenerator.MakeValidIdentifier(pieces[0]);
+            string[] pieces = xsdNamespace.Split(new char[] { '/', '.', ':', '-' });
+            string clrNS = NameGenerator.MakeValidIdentifier(pieces[0], nameMangler2);
             for(int i =1; i< pieces.Length; i++)
             {
-                if(pieces[i] != string.Empty)
-                    clrNS = clrNS + "." + NameGenerator.MakeValidIdentifier(pieces[i]);
+                if (pieces[i] != string.Empty)
+                {
+                    clrNS += 
+                        "." + 
+                        NameGenerator.MakeValidIdentifier(pieces[i], nameMangler2);
+                }
             }
             return clrNS;
         }
-        public static string MakeValidIdentifier(string identifierName)
+        public static string MakeValidIdentifier(string identifierName, bool nameMangler2)
         {
-            identifierName = CodeIdentifier.MakeValid(identifierName);
+            if (nameMangler2)
+            {
+                if (System.Char.IsDigit(identifierName[0]))
+                {
+                    identifierName = "_" + identifierName;
+                }
+            }
+            else
+            {
+                identifierName = CodeIdentifier.MakeValid(identifierName);
+            }
             if(isKeyword(identifierName))
                 return "@"+identifierName;
             return identifierName;

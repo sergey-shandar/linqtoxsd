@@ -165,7 +165,8 @@ namespace XObjectsGenerator
 
         private static XmlReader CreateReader(string xsdFile) {
             XmlReaderSettings settings = new XmlReaderSettings();
-            settings.ProhibitDtd = false;
+            // settings.ProhibitDtd = false;
+            settings.DtdProcessing = DtdProcessing.Parse;
             return XmlReader.Create(xsdFile, settings);
         }
         
