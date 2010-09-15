@@ -91,12 +91,19 @@ namespace XObjectsGenerator
             }
             set.Compile();
             set.ValidationEventHandler  -= veh;
-            if (set.Count > 0 && set.IsCompiled) {
-                try {
+            if (set.Count > 0 && set.IsCompiled) 
+            {
+                /*
+                GenerateXObjects(
+                    set, csFileName, configFileName, assemblyName, xmlSerializable, nameMangler2);
+                 * */
+                try 
+                {
                     GenerateXObjects(
                         set, csFileName, configFileName, assemblyName, xmlSerializable, nameMangler2);
                 }
-                catch(Exception e) {
+                catch(Exception e) 
+                {
                     PrintErrorMessage(e.ToString());
                     return 1;
                 }
@@ -117,7 +124,8 @@ namespace XObjectsGenerator
 
             CodeDomTypesGenerator codeGenerator = new CodeDomTypesGenerator(configSettings);
             CodeCompileUnit ccu = new CodeCompileUnit();
-            foreach(CodeNamespace codeNs in codeGenerator.GenerateTypes(mapping)) {
+            foreach(var codeNs in codeGenerator.GenerateTypes(mapping))
+            {
                 ccu.Namespaces.Add(codeNs);
             }
             //Write to file

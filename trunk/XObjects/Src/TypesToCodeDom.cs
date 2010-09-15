@@ -52,13 +52,16 @@ namespace Xml.Schema.Linq.CodeGen
             wrapperDictionaryAddStatements = new CodeStatementCollection();
         }
 
-        public IEnumerable<CodeNamespace> GenerateTypes(ClrMappingInfo binding) {
-            if (binding == null) {
+        public IEnumerable<CodeNamespace> GenerateTypes(ClrMappingInfo binding) 
+        {
+            if (binding == null) 
+            {
                 throw new ArgumentException("binding");
             }
             nameMappings = binding.NameMappings;
             Debug.Assert(nameMappings != null);
-            foreach(ClrTypeInfo type in binding.Types) { 
+            foreach(ClrTypeInfo type in binding.Types) 
+            { 
                 if (type.IsWrapper) { 
                     if (wrapperRootElements == null) {
                         wrapperRootElements = new List<ClrWrapperTypeInfo>();
@@ -197,29 +200,41 @@ namespace Xml.Schema.Linq.CodeGen
             }
         }
 
-        private void CreateXRoots() {
+        private void CreateXRoots() 
+        {
             // For the global XRoot structure, we union the lists of types
             List<CodeTypeDeclaration> allTypes = new List<CodeTypeDeclaration>();
             List<CodeNamespace> allNamespaces = new List<CodeNamespace>();
             string rootClrNamespace = settings.GetClrNamespace(rootElementName.Namespace);
             CodeNamespace rootCodeNamespace = null;
-            if(!codeNamespacesTable.TryGetValue(rootClrNamespace, out rootCodeNamespace)) { //This might happen if the schema set has no global elements and only global types
-                rootCodeNamespace = codeNamespacesTable.Values.FirstOrDefault();                                    //then you can create a root tag with xsi:type 
-                // rootCodeNamespace may still be null  if schema has only simple typed global elements or simple types which we are ignoring for now 
+            if(!codeNamespacesTable.TryGetValue(rootClrNamespace, out rootCodeNamespace)) 
+            { 
+                // This might happen if the schema set has no global elements 
+                // and only global types
+                rootCodeNamespace = codeNamespacesTable.Values.FirstOrDefault();                                    
+                // then you can create a root tag with xsi:type 
+                // rootCodeNamespace may still be null  if schema has only 
+                // simple typed global elements or simple types which we are 
+                // ignoring for now 
             }
 
             //Build list of types that will need to be included 
             //in XRoot
-            foreach (CodeNamespace codeNamespace in xroots.Keys){
-                if (rootCodeNamespace == null) rootCodeNamespace = codeNamespace;
+            foreach (var codeNamespace in xroots.Keys)
+            {
+                if (rootCodeNamespace == null)
+                {
+                    rootCodeNamespace = codeNamespace;
+                }
 
-                for (int i = 0; i < xroots[codeNamespace].Count; i++) {
-                    allTypes.Add(xroots[codeNamespace][i]);
+                var xRoot = xroots[codeNamespace];
+                for (int i = 0; i < xRoot.Count; i++) 
+                {
+                    allTypes.Add(xRoot[i]);
                     allNamespaces.Add(codeNamespace);
                 }
              
-                CreateXRoot(codeNamespace, "XRootNamespace", xroots[codeNamespace], null);
-                
+                CreateXRoot(codeNamespace, "XRootNamespace", xRoot, null);
             }
 
             CreateXRoot(rootCodeNamespace, "XRoot", allTypes, allNamespaces);
@@ -306,7 +321,10 @@ namespace Xml.Schema.Linq.CodeGen
             for (int i = 0; i < elements.Count; i++)
             {
                 string typeName = elements[i].Name;
-                string fqTypeName = (namespaces == null || namespaces[i].Name == String.Empty) ? typeName : "global::" + namespaces[i].Name + "." + typeName;
+                string fqTypeName = 
+                    (namespaces == null || namespaces[i].Name == String.Empty) ?
+                        typeName : 
+                        "global::" + namespaces[i].Name + "." + typeName;
                 
                 xroot.Members.Add(CodeDomHelper.CreateXRootFunctionalConstructor(fqTypeName));         
                 xroot.Members.Add(CodeDomHelper.CreateXRootGetter(typeName, fqTypeName, lst));         
@@ -315,8 +333,11 @@ namespace Xml.Schema.Linq.CodeGen
             codeNamespace.Types.Add(xroot);
         }
         
-        private void ProcessWrapperTypes() {
-            if (wrapperRootElements == null) { //No Globalelements with global types
+        private void ProcessWrapperTypes() 
+        {
+            if (wrapperRootElements == null) 
+            { 
+                //No Globalelements with global types
                 return;
             }
             XWrapperTypedElementBuilder wrapperBuilder = new XWrapperTypedElementBuilder();
