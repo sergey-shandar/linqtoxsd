@@ -15,7 +15,7 @@ using System.Reflection;
 
 namespace XObjectsGenerator
 {
-    class XObjectsGenerator {
+    public class XObjectsGenerator {
 
         private static Assembly ThisAssembly;
 
@@ -36,7 +36,8 @@ namespace XObjectsGenerator
                 PrintHelp();
                 return 0;
             }
-            for (int i = 0; i < args.Length; i++) {
+            for (int i = 0; i < args.Length; i++) 
+            {
                 string arg = args[i];
                 string value = string.Empty;
                 bool argument = false;
@@ -51,7 +52,8 @@ namespace XObjectsGenerator
                 }
                 arg = arg.ToLower(CultureInfo.InvariantCulture);
                 if (!argument) {
-                    try{
+                    try
+                    {
                         set.Add(null, CreateReader(arg));
                     }
                     catch(Exception e){
@@ -86,7 +88,8 @@ namespace XObjectsGenerator
                 }
             }
             if(assemblyName != string.Empty && !fSourceNameProvided)
-            { //only generate assembly
+            { 
+                //only generate assembly
                 csFileName = string.Empty;
             }
             set.Compile();
@@ -111,11 +114,12 @@ namespace XObjectsGenerator
             return 0;
         }
 
-        static void GenerateXObjects(
+        public static void GenerateXObjects(
             XmlSchemaSet set, string csFileName, string configFileName, string assemblyName, bool xmlSerializable, bool nameMangler2) 
         {
             LinqToXsdSettings configSettings = new LinqToXsdSettings(nameMangler2);
-            if (configFileName != null) {
+            if (configFileName != null) 
+            {
                 configSettings.Load(configFileName);
             }
             configSettings.EnableServiceReference = xmlSerializable;

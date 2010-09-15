@@ -7,6 +7,7 @@
         [X.Fact]
         public void Fact()
         {
+            // XObjectsGenerator.XObjectsGenerator.GenerateXObjects();
         }
     }
 }

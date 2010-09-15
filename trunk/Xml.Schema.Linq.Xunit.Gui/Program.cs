@@ -6,7 +6,6 @@ using System.Windows.Forms;
 namespace Xml.Schema.Linq.Xunit.Gui
 {
     using G = global::Xunit.Gui;
-    using A = global::System.Reflection.Assembly;
 
     static class Program
     {
@@ -18,7 +17,8 @@ namespace Xml.Schema.Linq.Xunit.Gui
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new G.RunnerForm(new string[] { "Xml.Schema.Linq.Xunit.dll" }));
+            Application.Run(
+                new G.RunnerForm(new string[] { "Xml.Schema.Linq.Xunit.dll" }));
         }
     }
 }
