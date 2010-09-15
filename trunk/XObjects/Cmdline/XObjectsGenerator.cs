@@ -96,7 +96,7 @@ namespace XObjectsGenerator
                 /*
                 GenerateXObjects(
                     set, csFileName, configFileName, assemblyName, xmlSerializable, nameMangler2);
-                 * */
+                */
                 try 
                 {
                     GenerateXObjects(
@@ -132,12 +132,6 @@ namespace XObjectsGenerator
             CSharpCodeProvider provider = new CSharpCodeProvider();
             if (csFileName != string.Empty)
             {
-                /*
-                StreamWriter sw = new StreamWriter(csFileName);
-                provider.GenerateCodeFromCompileUnit(ccu, sw, new CodeGeneratorOptions());
-                sw.Flush(); 
-                sw.Close();
-                 * */
                 using (var update = 
                     new Update(csFileName, System.Text.Encoding.UTF8))
                 {

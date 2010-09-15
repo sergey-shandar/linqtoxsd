@@ -228,9 +228,9 @@ namespace Xml.Schema.Linq.CodeGen
                 }
 
                 var xRoot = xroots[codeNamespace];
-                for (int i = 0; i < xRoot.Count; i++) 
+                foreach(var i in xRoot)
                 {
-                    allTypes.Add(xRoot[i]);
+                    allTypes.Add(i);
                     allNamespaces.Add(codeNamespace);
                 }
              
