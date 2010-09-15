@@ -18,7 +18,7 @@ namespace Xml.Schema.Linq
         internal XElement trafo;
         bool verifyRequired = false;
         bool enableServiceReference = false;
-        readonly bool NameMangler2;
+        public readonly bool NameMangler2;
 
         public LinqToXsdSettings(bool nameMangler2) {
             this.NameMangler2 = nameMangler2;
@@ -41,14 +41,16 @@ namespace Xml.Schema.Linq
 
         public string GetClrNamespace(string xmlNamespace) {
             string clrNamespace = string.Empty;
-            if (xmlNamespace == null) {
+            if (xmlNamespace == null) 
+            {
                 return clrNamespace;
             }
-            if (namespaceMapping.TryGetValue(xmlNamespace, out clrNamespace)) {
+            if (namespaceMapping.TryGetValue(xmlNamespace, out clrNamespace)) 
+            {
                 return clrNamespace;
             }
-            clrNamespace = NameGenerator.MakeValidCLRNamespace(
-                xmlNamespace, this.NameMangler2);
+            clrNamespace = NameGenerator.
+                MakeValidCLRNamespace(xmlNamespace, this.NameMangler2);
             namespaceMapping.Add(xmlNamespace, clrNamespace);
             return clrNamespace;
         }

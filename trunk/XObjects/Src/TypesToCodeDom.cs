@@ -13,7 +13,8 @@ using System.Security.Permissions;
 
 namespace Xml.Schema.Linq.CodeGen
 {
-    public class CodeDomTypesGenerator {
+    public class CodeDomTypesGenerator 
+    {
         
         LinqToXsdSettings settings;
         TypeBuilder typeBuilder;
@@ -225,10 +226,14 @@ namespace Xml.Schema.Linq.CodeGen
         }
 
 
-        private void CreateXRoot(CodeNamespace codeNamespace, string rootName, List<CodeTypeDeclaration> elements, List<CodeNamespace> namespaces)
+        private void CreateXRoot(
+            CodeNamespace codeNamespace, 
+            string rootName, 
+            List<CodeTypeDeclaration> elements, 
+            List<CodeNamespace> namespaces)
         {
 
-            LocalSymbolTable lst = new LocalSymbolTable();
+            LocalSymbolTable lst = new LocalSymbolTable(this.settings);
             
             CodeTypeDeclaration xroot = CodeDomHelper.CreateTypeDeclaration(rootName, null);
 

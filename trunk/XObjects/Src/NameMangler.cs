@@ -13,7 +13,8 @@ using System.Globalization;
 
 namespace Xml.Schema.Linq.CodeGen
 {
-    internal static class NameGenerator {
+    internal static class NameGenerator 
+    {
         static int uniqueIdCounter = 0;
         static Hashtable keywords;
 
@@ -31,11 +32,12 @@ namespace Xml.Schema.Linq.CodeGen
                                       "do","is","sizeof","while","double","lock","stackalloc","else","long",
                                       "static","enum","namespace","string","var"};
  
-            foreach(string k in keywordlist)
+            foreach(var k in keywordlist)
             {
                 keywords.Add(k.ToUpper(CultureInfo.InvariantCulture), k);
             }
         }
+
         public static int GetUniqueID() {
             Interlocked.Increment(ref uniqueIdCounter);
             return uniqueIdCounter;
@@ -123,13 +125,16 @@ namespace Xml.Schema.Linq.CodeGen
             {
                 identifierName = CodeIdentifier.MakeValid(identifierName);
             }
-            if(isKeyword(identifierName))
-                return "@"+identifierName;
+            if (isKeyword(identifierName))
+            {
+                return "@" + identifierName;
+            }
             return identifierName;
         }
         public static bool isKeyword(string identifier)
         {
-            return keywords.ContainsKey(identifier.ToUpper(CultureInfo.InvariantCulture));
+            return keywords.
+                ContainsKey(identifier.ToUpper(CultureInfo.InvariantCulture));
         }
     }
 
@@ -142,7 +147,8 @@ namespace Xml.Schema.Linq.CodeGen
 
         public override int GetHashCode()
         {
-            return identifierName.ToUpper(CultureInfo.InvariantCulture).GetHashCode();
+            return identifierName.
+                ToUpper(CultureInfo.InvariantCulture).GetHashCode();
         }
         public override bool Equals(object obj)
         {
@@ -183,13 +189,15 @@ namespace Xml.Schema.Linq.CodeGen
             return AddSymbol(type.QualifiedName, type, Constants.TypeSuffix);
         }
 
-        protected SymbolEntry AddSymbol(XmlQualifiedName qname, XmlSchemaObject schemaObject, string suffix)
+        protected SymbolEntry AddSymbol(
+            XmlQualifiedName qname, XmlSchemaObject schemaObject, string suffix)
         {
             SymbolEntry symbol = new SymbolEntry();
             symbol.xsdNamespace = qname.Namespace;
             symbol.clrNamespace = configSettings.GetClrNamespace(qname.Namespace);
             symbol.symbolName = qname.Name;
-            string identifierName = NameGenerator.MakeValidIdentifier(symbol.symbolName);
+            string identifierName = NameGenerator.MakeValidIdentifier(
+                symbol.symbolName, this.configSettings.NameMangler2);
             symbol.identifierName = identifierName;
             int id = 0;
             if(symbols.ContainsKey(symbol))
@@ -224,6 +232,12 @@ namespace Xml.Schema.Linq.CodeGen
         Hashtable symbolToQName;
         Hashtable qNameToSymbol;
         List<AnonymousType> anonymousTypes;
+        readonly LinqToXsdSettings ConfigSettings;
+
+        public LocalSymbolTable(LinqToXsdSettings configSettings)
+        {
+            this.ConfigSettings = configSettings;
+        }
         
         public void Init(XmlSchemaElement element)
         {
@@ -261,7 +275,8 @@ namespace Xml.Schema.Linq.CodeGen
             string identifierName = (string)qNameToSymbol[element.QualifiedName];
             if(identifierName != null)
                 return identifierName;
-            identifierName = NameGenerator.MakeValidIdentifier(element.QualifiedName.Name);
+            identifierName = NameGenerator.MakeValidIdentifier(
+                element.QualifiedName.Name, this.ConfigSettings.NameMangler2);
             identifierName = getSymbol(identifierName, Constants.LocalElementConflictSuffix);
             symbolToQName.Add(identifierName.ToUpper(CultureInfo.InvariantCulture), element.QualifiedName);
             qNameToSymbol.Add(element.QualifiedName, identifierName);
@@ -270,7 +285,8 @@ namespace Xml.Schema.Linq.CodeGen
 
         public string AddAttribute(XmlSchemaAttribute attribute)
         {
-            string identifierName = NameGenerator.MakeValidIdentifier(attribute.QualifiedName.Name);
+            string identifierName = NameGenerator.MakeValidIdentifier(
+                attribute.QualifiedName.Name, this.ConfigSettings.NameMangler2);
             identifierName = getSymbol(identifierName, Constants.LocalAttributeConflictSuffix);
             symbolToQName.Add(identifierName.ToUpper(CultureInfo.InvariantCulture), attribute.QualifiedName);
             return identifierName;
@@ -287,7 +303,8 @@ namespace Xml.Schema.Linq.CodeGen
 
         public void AddComplexRestrictedContentType(XmlSchemaComplexType wrappingType, ClrTypeReference wrappingTypeRef) 
         {
-            string identifier = NameGenerator.MakeValidIdentifier(wrappingType.Name);
+            string identifier = NameGenerator.MakeValidIdentifier(
+                wrappingType.Name, this.ConfigSettings.NameMangler2);
             AnonymousType at = new AnonymousType();
             at.identifier = identifier;
             at.typeRefence = wrappingTypeRef;

@@ -42,7 +42,7 @@ namespace Xml.Schema.Linq.CodeGen
         {
             this.configSettings = configSettings;
             symbolTable = new GlobalSymbolTable(configSettings);
-            localSymbolTable = new LocalSymbolTable();
+            localSymbolTable = new LocalSymbolTable(configSettings);
             binding = new ClrMappingInfo();
             textPropInheritanceTracker = new Dictionary<XmlSchemaType, ClrPropertyInfo>();
             substitutionGroups = new Dictionary<XmlQualifiedName, ArrayList>();
