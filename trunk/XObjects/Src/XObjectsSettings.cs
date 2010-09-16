@@ -13,20 +13,24 @@ using Xml.Schema.Linq.CodeGen;
 namespace Xml.Schema.Linq
 {
 
-    public class LinqToXsdSettings {
+    public class LinqToXsdSettings 
+    {
         Dictionary<string, string> namespaceMapping;
         internal XElement trafo;
         bool verifyRequired = false;
         bool enableServiceReference = false;
         public readonly bool NameMangler2;
 
-        public LinqToXsdSettings(bool nameMangler2) {
+        public LinqToXsdSettings(bool nameMangler2) 
+        {
             this.NameMangler2 = nameMangler2;
             namespaceMapping = new Dictionary<string, string>();
         }
 
-        public void Load(string configFile) {
-            if (configFile == null || configFile.Length == 0) {
+        public void Load(string configFile) 
+        {
+            if (configFile == null || configFile.Length == 0) 
+            {
                 throw new ArgumentException("Argument configFile should be non-null and non-empty.");
             }
             XDocument configDoc = XDocument.Load(configFile);
@@ -34,12 +38,14 @@ namespace Xml.Schema.Linq
             GenerateNamespaceMapping(rootElement.Element(XName.Get("Namespaces", Constants.TypedXLinqNs)));
             trafo = rootElement.Element(XName.Get("Transformation", Constants.FxtNs));
             XElement validationSettings = rootElement.Element(XName.Get("Validation", Constants.TypedXLinqNs));
-            if (validationSettings != null) {
+            if (validationSettings != null) 
+            {
                 verifyRequired = (string)validationSettings.Element(XName.Get("VerifyRequired", Constants.TypedXLinqNs)) == "true" ? true : false;
             }
         }
 
-        public string GetClrNamespace(string xmlNamespace) {
+        public string GetClrNamespace(string xmlNamespace) 
+        {
             string clrNamespace = string.Empty;
             if (xmlNamespace == null) 
             {

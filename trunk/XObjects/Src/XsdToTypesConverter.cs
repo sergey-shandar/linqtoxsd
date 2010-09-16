@@ -135,7 +135,8 @@ namespace Xml.Schema.Linq.CodeGen
                     headElement = (XmlSchemaElement)schemas.GlobalElements[elem.SubstitutionGroup];
                 }
                 if (schemaType.IsGlobal())
-                { //Global elem with global type, generate wrapper class for the element
+                { 
+                    //Global elem with global type, generate wrapper class for the element
                     bool hasBaseContentType = headElement != null && headElement.ElementSchemaType == schemaType;
                     ClrWrapperTypeInfo wtypeInfo = new ClrWrapperTypeInfo(hasBaseContentType);
                     ClrTypeReference typeDef = BuildTypeReference(schemaType, schemaType.QualifiedName, false, true);

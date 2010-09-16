@@ -17,7 +17,7 @@ namespace XObjectsGenerator
 {
     public class XObjectsGenerator {
 
-        private static Assembly ThisAssembly;
+        public static Assembly ThisAssembly;
 
         public static int Main(string[] args) {
 
@@ -134,7 +134,7 @@ namespace XObjectsGenerator
             }
             //Write to file
             CSharpCodeProvider provider = new CSharpCodeProvider();
-            if (csFileName != string.Empty)
+            if (csFileName != string.Empty && csFileName != null)
             {
                 using (var update = 
                     new Update(csFileName, System.Text.Encoding.UTF8))
