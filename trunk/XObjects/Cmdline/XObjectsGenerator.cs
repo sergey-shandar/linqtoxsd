@@ -165,16 +165,20 @@ namespace XObjectsGenerator
                 {
                     PrintErrorMessage("compilation error(s): ");
                     for (int i = 0; i < results.Errors.Count; i++)
+                    {
                         PrintErrorMessage(results.Errors[i].ToString());
+                    }
+                    throw new Exception("compilation error(s)");
                 }
                 else
                 {
                     PrintMessage("Generated Assembly: " + results.CompiledAssembly.ToString());
                 }
-            };
+            }
         }
 
-        private static XmlReader CreateReader(string xsdFile) {
+        private static XmlReader CreateReader(string xsdFile) 
+        {
             XmlReaderSettings settings = new XmlReaderSettings();
             // settings.ProhibitDtd = false;
             settings.DtdProcessing = DtdProcessing.Parse;

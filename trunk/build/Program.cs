@@ -58,7 +58,7 @@
         }
 
         static void Build(
-            BE.ProjectCollection/*E.Engine*/ engine, 
+            BE.ProjectCollection engine, 
             string dir, 
             string name, 
             string version, 
@@ -67,7 +67,6 @@
             dir = IO.Path.Combine(dir, name);
             Create(dir, name, version);
             var fileName = IO.Path.Combine(dir, name + ".csproj");
-            // if (!engine.BuildProjectFile(fileName))
             var project = engine.LoadProject(fileName);
             if(!project.Build())
             {
