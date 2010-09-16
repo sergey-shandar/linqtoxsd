@@ -115,7 +115,12 @@ namespace XObjectsGenerator
         }
 
         public static void GenerateXObjects(
-            XmlSchemaSet set, string csFileName, string configFileName, string assemblyName, bool xmlSerializable, bool nameMangler2) 
+            XmlSchemaSet set, 
+            string csFileName, 
+            string configFileName, 
+            string assemblyName, 
+            bool xmlSerializable, 
+            bool nameMangler2) 
         {
             LinqToXsdSettings configSettings = new LinqToXsdSettings(nameMangler2);
             if (configFileName != null) 
