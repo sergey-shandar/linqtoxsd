@@ -55,6 +55,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +63,12 @@
       <Project>{ACC0ED2D-D59A-4CC7-8273-A22C84EEC73F}</Project>
       <Name>Cmdline</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Xsd\Basic.xsd" />
+    <None Include="Xsd\Element.xsd" />
+    <None Include="Xsd\Type.xsd" />
+    <None Include="Xsd\Union.xsd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

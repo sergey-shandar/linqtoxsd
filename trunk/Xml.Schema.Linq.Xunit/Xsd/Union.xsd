@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="A"
+	xmlns:A="A">
+
+  <xs:element name="account">
+    <xs:complexType>
+      <xs:attribute ref="A:account"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:attribute name="account">
+    <xs:simpleType>
+      <xs:union memberTypes="A:type1 A:type2" />
+    </xs:simpleType>
+  </xs:attribute>
+
+  <xs:simpleType name="type1">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9]+" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="type2">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-z]+" />
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

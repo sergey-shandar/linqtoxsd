@@ -586,18 +586,23 @@ namespace Xml.Schema.Linq.CodeGen {
         
         internal override XCodeTypeReference ReturnType { 
             get {
-                if (returnType == null) {
+                if (returnType == null) 
+                {
                     string fullTypeName = clrTypeName;
-                    if (typeRef.IsLocalType && !typeRef.IsSimpleType) { //For simple types, return type is always XSD -> CLR mapping
+                    if (typeRef.IsLocalType && !typeRef.IsSimpleType) 
+                    { 
+                        //For simple types, return type is always XSD -> CLR mapping
                         fullTypeName = parentTypeFullName + "." + clrTypeName;
                     }
                     if (IsList || !IsRef &&IsSchemaList) {
                         returnType = CreateListReturnType(fullTypeName);
                     }
-                    else if (!IsRef && typeRef.IsValueType && IsNullable ) {
+                    else if (!IsRef && typeRef.IsValueType && IsNullable ) 
+                    {
                         returnType = new XCodeTypeReference("System.Nullable", new CodeTypeReference(fullTypeName));
                     }
-                    else {
+                    else 
+                    {
                         returnType = new XCodeTypeReference(clrTypeName);
                         returnType.fullTypeName = fullTypeName;
                     }
@@ -1134,6 +1139,7 @@ namespace Xml.Schema.Linq.CodeGen {
 
         protected CodeExpression GetSimpleTypeClassExpression() {
             Debug.Assert(this.simpleTypeClrTypeName != null);
+            Debug.Assert(this.simpleTypeClrTypeName != string.Empty);
 
             return CodeDomHelper.CreateFieldReference(
                     this.simpleTypeClrTypeName, Constants.SimpleTypeDefInnerType);

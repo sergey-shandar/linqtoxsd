@@ -7,6 +7,7 @@
     using G = XObjectsGenerator.XObjectsGenerator;
     using R = Properties.Resources;
 
+
     public class Attribute
     {
         [X.Fact]
@@ -28,26 +29,33 @@
             var r = XML.XmlReader.Create(reader, settings);
             set.Add(null, r);
             G.ThisAssembly = A.GetExecutingAssembly();
-            G.GenerateXObjects(set, null, null, null, true, false);
+            G.GenerateXObjects(set, "temp.cs", null, null, true, false);
         }
 
         [X.Fact]
         public void Union()
         {
-            this.UnionTest(R.UnionTest);
+            this.UnionTest(R.Union);
         }
 
         [X.Fact]
         public void UnionBasic()
         {
-            this.UnionTest(R.UnionTestBasic);
+            this.UnionTest(R.Basic);
         }
 
         [X.Fact]
         public void UnionType()
         {
-            this.UnionTest(R.UnionTestType);
+            this.UnionTest(R.Type);
         }
+
+        [X.Fact]
+        public void UnionElement()
+        {
+            this.UnionTest(R.Element);
+        }
+
 
     }
 }

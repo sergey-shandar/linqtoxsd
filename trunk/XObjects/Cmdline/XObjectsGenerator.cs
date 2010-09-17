@@ -172,7 +172,9 @@ namespace XObjectsGenerator
                 }
                 else
                 {
-                    PrintMessage("Generated Assembly: " + results.CompiledAssembly.ToString());
+                    PrintMessage(
+                        "Generated Assembly: " + 
+                        results.CompiledAssembly.ToString());
                 }
             }
         }
