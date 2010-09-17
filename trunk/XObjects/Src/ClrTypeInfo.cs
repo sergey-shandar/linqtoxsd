@@ -395,7 +395,8 @@ namespace Xml.Schema.Linq.CodeGen {
             this.schemaObject = schemaObject;
             
             XmlSchemaType schemaType = schemaObject as XmlSchemaType;
-            if (schemaType == null) {
+            if (schemaType == null) 
+            {
                 XmlSchemaElement elem = schemaObject as XmlSchemaElement;
                 typeRefFlags |= ClrTypeRefFlags.IsElementRef;
                 schemaType = elem.ElementSchemaType;
@@ -403,24 +404,30 @@ namespace Xml.Schema.Linq.CodeGen {
             Debug.Assert(schemaType != null);
             
             XmlSchemaSimpleType st = schemaType as XmlSchemaSimpleType;
-            if (st != null) {
-                if (st.HasFacetRestrictions() || st.IsOrHasUnion()) {
+            if (st != null) 
+            {
+                if (st.HasFacetRestrictions() || st.IsOrHasUnion()) 
+                {
                     typeRefFlags |= ClrTypeRefFlags.Validate;
                 }
                 XmlSchemaDatatype datatype = st.Datatype;
-                if (setVariety) {
+                if (setVariety) 
+                {
                     SetVariety(datatype);
                 }
                 typeRefFlags |= ClrTypeRefFlags.IsSimpleType;
                 typeCodeString = datatype.TypeCodeString();
-                if (datatype.ValueType.IsValueType) {
+                if (datatype.ValueType.IsValueType) 
+                {
                     typeRefFlags |= ClrTypeRefFlags.IsValueType;
                 }
             }
-            else if (schemaType.TypeCode == XmlTypeCode.Item) {
+            else if (schemaType.TypeCode == XmlTypeCode.Item) 
+            {
                 typeRefFlags |= ClrTypeRefFlags.IsAnyType;
             }
-            if (anonymousType) {
+            if (anonymousType) 
+            {
                 typeRefFlags |= ClrTypeRefFlags.IsLocalType;
             }
             this.typeRefOrigin = SchemaOrigin.Fragment;

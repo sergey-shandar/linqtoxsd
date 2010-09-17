@@ -22,7 +22,9 @@ namespace Xml.Schema.Linq.CodeGen
         public virtual void StartCodeGen() {
         }
 
-        public virtual void GenerateCode(ClrBasePropertyInfo property, List<ClrAnnotation> annotations) {
+        public virtual void GenerateCode(
+            ClrBasePropertyInfo property, List<ClrAnnotation> annotations) 
+        {
             property.AddToType(decl, annotations); 
         }
 

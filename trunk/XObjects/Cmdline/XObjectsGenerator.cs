@@ -155,6 +155,7 @@ namespace XObjectsGenerator
                 options.OutputAssembly = assemblyName;
                 options.IncludeDebugInformation = true;
                 options.TreatWarningsAsErrors = true;
+                options.TempFiles.KeepFiles = true;
                 options.ReferencedAssemblies.Add("System.dll");
                 options.ReferencedAssemblies.Add("System.Core.dll");
                 options.ReferencedAssemblies.Add("System.Xml.dll");

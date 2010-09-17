@@ -937,11 +937,10 @@ namespace Xml.Schema.Linq.CodeGen
 
             XmlSchemaSimpleType schemaType = attribute.AttributeSchemaType;
             // http://linqtoxsd.codeplex.com/WorkItem/View.aspx?WorkItemId=4106
-            bool anonymous = schemaType.QualifiedName.IsEmpty;
             ClrTypeReference typeRef = BuildTypeReference(
                 schemaType, 
                 attribute.AttributeSchemaType.QualifiedName,
-                anonymous, 
+                false, 
                 true);
             propertyInfo.TypeReference = typeRef;
             Debug.Assert(schemaType.Datatype != null);

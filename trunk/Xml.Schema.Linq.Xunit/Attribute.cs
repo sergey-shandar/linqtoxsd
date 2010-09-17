@@ -56,6 +56,11 @@
             this.UnionTest(R.Element);
         }
 
+        [X.Fact]
+        public void UnionElement2()
+        {
+            this.UnionTest(R.Element2);
+        }
 
     }
 }
