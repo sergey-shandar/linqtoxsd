@@ -623,11 +623,18 @@ namespace Xml.Schema.Linq.CodeGen {
           
         }
 
-        internal void UpdateTypeReference(string clrFullTypeName, string currentNamespace, Dictionary<XmlSchemaObject, string> nameMappings) {
+        internal void UpdateTypeReference(
+            string clrFullTypeName, 
+            string currentNamespace, 
+            Dictionary<XmlSchemaObject, string> nameMappings)
+        {
             string refTypeName = null;
-            this.clrTypeName = typeRef.GetClrFullTypeName(currentNamespace, nameMappings, out refTypeName);
-            if (Validation || IsUnion) { 
-                this.simpleTypeClrTypeName = typeRef.GetSimpleTypeClrTypeDefName(currentNamespace, nameMappings);
+            this.clrTypeName = typeRef.GetClrFullTypeName(
+                currentNamespace, nameMappings, out refTypeName);
+            if (Validation || IsUnion) 
+            { 
+                this.simpleTypeClrTypeName = typeRef.GetSimpleTypeClrTypeDefName(
+                    currentNamespace, nameMappings);
             }
             this.parentTypeFullName = clrFullTypeName;
         }
@@ -1139,7 +1146,7 @@ namespace Xml.Schema.Linq.CodeGen {
 
         protected CodeExpression GetSimpleTypeClassExpression() {
             Debug.Assert(this.simpleTypeClrTypeName != null);
-            Debug.Assert(this.simpleTypeClrTypeName != string.Empty);
+            // Debug.Assert(this.simpleTypeClrTypeName != string.Empty);
 
             return CodeDomHelper.CreateFieldReference(
                     this.simpleTypeClrTypeName, Constants.SimpleTypeDefInnerType);

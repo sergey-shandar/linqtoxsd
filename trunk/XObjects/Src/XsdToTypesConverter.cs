@@ -139,7 +139,8 @@ namespace Xml.Schema.Linq.CodeGen
                     //Global elem with global type, generate wrapper class for the element
                     bool hasBaseContentType = headElement != null && headElement.ElementSchemaType == schemaType;
                     ClrWrapperTypeInfo wtypeInfo = new ClrWrapperTypeInfo(hasBaseContentType);
-                    ClrTypeReference typeDef = BuildTypeReference(schemaType, schemaType.QualifiedName, false, true);
+                    ClrTypeReference typeDef = BuildTypeReference(
+                        schemaType, schemaType.QualifiedName, false, true);
                     //Save the fixed/default value of the element                    
                     wtypeInfo.InnerType = typeDef;
                     typeInfo = wtypeInfo;
@@ -936,7 +937,12 @@ namespace Xml.Schema.Linq.CodeGen
 
             XmlSchemaSimpleType schemaType = attribute.AttributeSchemaType;
             // http://linqtoxsd.codeplex.com/WorkItem/View.aspx?WorkItemId=4106
-            ClrTypeReference typeRef = BuildTypeReference(schemaType, attribute.AttributeSchemaType.QualifiedName, false, true);
+            bool anonymous = schemaType.QualifiedName.IsEmpty;
+            ClrTypeReference typeRef = BuildTypeReference(
+                schemaType, 
+                attribute.AttributeSchemaType.QualifiedName,
+                anonymous, 
+                true);
             propertyInfo.TypeReference = typeRef;
             Debug.Assert(schemaType.Datatype != null);
             SetFixedDefaultValue(attribute, propertyInfo);
@@ -952,7 +958,11 @@ namespace Xml.Schema.Linq.CodeGen
             return property;
         }
 
-        private ClrTypeReference BuildTypeReference(XmlSchemaObject schemaObject, XmlQualifiedName typeQName, bool anonymousType, bool setVariety)
+        private ClrTypeReference BuildTypeReference(
+            XmlSchemaObject schemaObject, 
+            XmlQualifiedName typeQName, 
+            bool anonymousType, 
+            bool setVariety)
         {
             string typeName = typeQName.Name;
             string typeNs = typeQName.Namespace;
@@ -960,7 +970,8 @@ namespace Xml.Schema.Linq.CodeGen
             {
                 typeNs = configSettings.GetClrNamespace(typeNs);
             }
-            ClrTypeReference typeRef = new ClrTypeReference(typeName, typeNs, schemaObject, anonymousType, setVariety);
+            ClrTypeReference typeRef = new ClrTypeReference(
+                typeName, typeNs, schemaObject, anonymousType, setVariety);
             return typeRef;
         }
 

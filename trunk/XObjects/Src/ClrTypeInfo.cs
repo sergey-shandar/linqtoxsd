@@ -373,7 +373,8 @@ namespace Xml.Schema.Linq.CodeGen {
         }
     }
 
-    internal class ClrTypeReference {
+    internal class ClrTypeReference 
+    {
         string typeName;
         string typeNs;
 
@@ -382,7 +383,13 @@ namespace Xml.Schema.Linq.CodeGen {
         ClrTypeRefFlags typeRefFlags;
         SchemaOrigin typeRefOrigin;
 
-        internal ClrTypeReference(string name, string ns, XmlSchemaObject schemaObject, bool anonymousType, bool setVariety) {
+        internal ClrTypeReference(
+            string name, 
+            string ns, 
+            XmlSchemaObject schemaObject, 
+            bool anonymousType, 
+            bool setVariety)
+        {
             this.typeName = name;
             this.typeNs = ns;
             this.schemaObject = schemaObject;
