@@ -11,7 +11,7 @@
     static class Program
     {
         const string Company = "Microsoft";
-        const string Version3 = "2.0.0";
+        const string Version3 = "2.0.1";
 
         const string XObjects = "XObjects";
         const string XOTask = "XOTask";
