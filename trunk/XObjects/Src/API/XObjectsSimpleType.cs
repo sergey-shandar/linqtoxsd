@@ -85,13 +85,15 @@ namespace Xml.Schema.Linq
 
         }
 
-        protected void SetUnionElement(object value,
-                                        string propertyName,
-                                        XTypedElement container,
-                                        XName itemXName,
-                                        SimpleTypeValidator typeDef)
+        protected void SetUnionElement(
+            object value,
+            string propertyName,
+            XTypedElement container,
+            XName itemXName,
+            SimpleTypeValidator typeDef)
         {
-            SetUnionCatchAll(value, propertyName, container, itemXName, typeDef, SchemaOrigin.Element);
+            SetUnionCatchAll(
+                value, propertyName, container, itemXName, typeDef, SchemaOrigin.Element);
 
         }
 

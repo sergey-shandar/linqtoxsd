@@ -369,7 +369,8 @@ namespace Xml.Schema.Linq.CodeGen {
         }
     }
     
-    internal partial class ClrPropertyInfo : ClrBasePropertyInfo {
+    internal partial class ClrPropertyInfo : ClrBasePropertyInfo 
+    {
         
         ClrTypeReference typeRef;
         PropertyFlags propertyFlags;
@@ -383,7 +384,12 @@ namespace Xml.Schema.Linq.CodeGen {
 
         ArrayList       substitutionMembers;
 
-        internal ClrPropertyInfo(string propertyName, string propertyNs, string schemaName, Occurs occursInSchema) {
+        internal ClrPropertyInfo(
+            string propertyName, 
+            string propertyNs, 
+            string schemaName, 
+            Occurs occursInSchema)
+        {
             this.contentType = ContentType.Property;
             this.propertyName = propertyName;
             this.propertyNs = propertyNs;
@@ -392,10 +398,12 @@ namespace Xml.Schema.Linq.CodeGen {
             this.returnType = null;
             this.clrTypeName = null;
             this.occursInSchema = occursInSchema;
-            if (this.occursInSchema > Occurs.ZeroOrOne) {
+            if (this.occursInSchema > Occurs.ZeroOrOne) 
+            {
                 this.propertyFlags |= PropertyFlags.IsList;
             }
-            if (this.IsOptional) {
+            if (this.IsOptional) 
+            {
                 this.propertyFlags |= PropertyFlags.IsNullable;
             }
             XNameGetExpression();
@@ -933,60 +941,72 @@ namespace Xml.Schema.Linq.CodeGen {
                     new CodeBinaryOperatorExpression( //if
                         CodeDomHelper.SetValue(),
                         CodeBinaryOperatorType.IdentityEquality,
-                        new CodePrimitiveExpression(null)
-                    ),
+                        new CodePrimitiveExpression(null)),
                     trueStatements,
                     falseStatements));
         }
 
-        private void AddGetStatements(CodeStatementCollection getStatements) {
-            if (IsSubstitutionHead) {
+        private void AddGetStatements(CodeStatementCollection getStatements) 
+        {
+            if (IsSubstitutionHead) 
+            {
                 AddSubstGetStatements(getStatements);
                 return;
             }
             CodeExpression returnExp = null;
 
-            if (FixedValue != null) {
+            if (FixedValue != null) 
+            {
                 getStatements.Add(
                     new CodeMethodReturnStatement(
-                        new CodeFieldReferenceExpression(null,
-                        NameGenerator.ChangeClrName(this.propertyName, NameOptions.MakeFixedValueField)
-                       ))
+                        new CodeFieldReferenceExpression(
+                            null,
+                            NameGenerator.ChangeClrName(
+                                this.propertyName, 
+                                NameOptions.MakeFixedValueField)))
                 );
                 return;
             }
             getStatements.Add(GetValueMethodCall());
             CheckOccurrence(getStatements);
-            CodeVariableReferenceExpression returnValueExp = new CodeVariableReferenceExpression("x");
-            if (!IsRef && typeRef.IsSimpleType) {//for referencing properties, directly create the object of referenced type
+            CodeVariableReferenceExpression returnValueExp = 
+                new CodeVariableReferenceExpression("x");
+            if (!IsRef && typeRef.IsSimpleType) 
+            {
+                //for referencing properties, directly create the object of referenced type
                 CodeTypeReference parseType = ReturnType;
-                if (typeRef.IsValueType && IsNullable) { 
+                if (typeRef.IsValueType && IsNullable) 
+                { 
                     parseType = new CodeTypeReference(clrTypeName);
                 }
-                if (IsUnion) {
+                if (IsUnion) 
+                {
                     returnExp = CodeDomHelper.CreateMethodCall(
-                                    CodeDomHelper.CreateTypeReferenceExp(Constants.XTypedServices),
-                                    Constants.ParseUnionValue,
-                                    returnValueExp,
-                                    GetSimpleTypeClassExpression());
-
+                        CodeDomHelper.CreateTypeReferenceExp(Constants.XTypedServices),
+                        Constants.ParseUnionValue,
+                        returnValueExp,
+                        GetSimpleTypeClassExpression());
                 }
-                else {
+                else 
+                {
                     string parseMethodName = null;
                     CodeExpression simpleTypeExpression = GetSchemaDatatypeExpression();
-                    if (IsSchemaList) {
+                    if (IsSchemaList) 
+                    {
                         parseMethodName = Constants.ParseListValue;
                         parseType = new CodeTypeReference(clrTypeName);
                     }
-                    else {
+                    else 
+                    {
                         parseMethodName = Constants.ParseValue;
                     }
                     returnExp = CodeDomHelper.CreateGenericMethodCall(
-                                CodeDomHelper.CreateTypeReferenceExp(Constants.XTypedServices),
-                                parseMethodName,
-                                parseType,
-                                returnValueExp,
-                                simpleTypeExpression);
+                        CodeDomHelper.CreateTypeReferenceExp(
+                            Constants.XTypedServices),
+                        parseMethodName,
+                        parseType,
+                        returnValueExp,
+                        simpleTypeExpression);
 
                     if(DefaultValue != null)
                     {
@@ -1002,17 +1022,30 @@ namespace Xml.Schema.Linq.CodeGen {
             getStatements.Add(new CodeMethodReturnStatement(returnExp));
         }
 
-        private void CheckOccurrence(CodeStatementCollection getStatements) {
+        private void CheckOccurrence(CodeStatementCollection getStatements) 
+        {
             Debug.Assert(!this.IsList);
             CodeStatement returnStatement = null;
-            if (IsNullable && DefaultValue == null) {
-                if (typeRef.IsValueType) { //Need to return T?, since parseValue handles only T, checking for null
-                    returnStatement = new CodeMethodReturnStatement(new CodePrimitiveExpression(null));
+            if (IsNullable && DefaultValue == null) 
+            {
+                if (typeRef.IsValueType) 
+                { 
+                    // Need to return T?, since parseValue handles only T, 
+                    // checking for null
+                    returnStatement = new CodeMethodReturnStatement(
+                        new CodePrimitiveExpression(null));
                 }
             }
-            else if (VerifyRequired) {
+            else if (VerifyRequired) 
+            {
                 Debug.Assert(this.occursInSchema == Occurs.One);
-                string origin = this.propertyOrigin == SchemaOrigin.Element ? "Element" : this.propertyOrigin == SchemaOrigin.Attribute ? "Attribute" : null;
+                string origin = 
+                    this.propertyOrigin == SchemaOrigin.Element ? 
+                        "Element" : 
+                    this.propertyOrigin == SchemaOrigin.Attribute ? 
+                        "Attribute":
+                    // otherwise
+                        null;
                 returnStatement = new CodeThrowExceptionStatement(new CodeObjectCreateExpression(Constants.LinqToXsdException, new CodePrimitiveExpression("Missing required " + origin)));
             }       
             if (returnStatement != null) {
@@ -1144,11 +1177,13 @@ namespace Xml.Schema.Linq.CodeGen {
                     Constants.Datatype); 
         }
 
-        protected CodeExpression GetSimpleTypeClassExpression() {
+        protected CodeExpression GetSimpleTypeClassExpression() 
+        {
             Debug.Assert(this.simpleTypeClrTypeName != null);
             // Debug.Assert(this.simpleTypeClrTypeName != string.Empty);
 
-            return CodeDomHelper.CreateFieldReference(
+            return 
+                CodeDomHelper.CreateFieldReference(
                     this.simpleTypeClrTypeName, Constants.SimpleTypeDefInnerType);
         }
 

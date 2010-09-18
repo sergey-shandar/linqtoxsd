@@ -271,9 +271,10 @@ namespace Xml.Schema.Linq.CodeGen
             return defaultContentModel;
         }
 
-        internal static CodeTypeDeclaration CreateSimpleType(ClrSimpleTypeInfo typeInfo, 
-                                                            Dictionary<XmlSchemaObject, string> nameMappings,
-                                                            LinqToXsdSettings settings)
+        internal static CodeTypeDeclaration CreateSimpleType(
+            ClrSimpleTypeInfo typeInfo, 
+            Dictionary<XmlSchemaObject, string> nameMappings,
+            LinqToXsdSettings settings)
         {
             
             string typeName = typeInfo.clrtypeName;
@@ -287,7 +288,11 @@ namespace Xml.Schema.Linq.CodeGen
             
             //Create a static field for the XTypedSchemaSimpleType
             CodeMemberField typeField = 
-                CodeDomHelper.CreateMemberField(Constants.SimpleTypeDefInnerType, Constants.SimpleTypeValidator, MemberAttributes.Public | MemberAttributes.Static, false);
+                CodeDomHelper.CreateMemberField(
+                    Constants.SimpleTypeDefInnerType, 
+                    Constants.SimpleTypeValidator, 
+                    MemberAttributes.Public | MemberAttributes.Static, 
+                    false);
             typeField.InitExpression = SimpleTypeCodeDomHelper.CreateSimpleTypeDef(typeInfo, nameMappings, settings, false);
             
             simpleTypeDecl.Members.Add(typeField);
