@@ -750,25 +750,34 @@ namespace Xml.Schema.Linq.CodeGen {
             }
         }
 
-        private CodeVariableDeclarationStatement GetValueMethodCall() {
-            switch (propertyOrigin) {
+        private CodeVariableDeclarationStatement GetValueMethodCall() 
+        {
+            switch (propertyOrigin) 
+            {
                 case SchemaOrigin.Element:
                     return new CodeVariableDeclarationStatement(
                         "XElement",
                         "x",
-                        CodeDomHelper.CreateMethodCall(CodeDomHelper.This(), "GetElement", xNameGetExpression));
+                        CodeDomHelper.CreateMethodCall(
+                            CodeDomHelper.This(), 
+                            "GetElement", 
+                            xNameGetExpression));
 
                 case SchemaOrigin.Attribute:
                     return new CodeVariableDeclarationStatement(
                         "XAttribute",
                         "x",
-                        CodeDomHelper.CreateMethodCall(CodeDomHelper.This(), "Attribute", xNameGetExpression));
+                        CodeDomHelper.CreateMethodCall(
+                            CodeDomHelper.This(), 
+                            "Attribute", 
+                            xNameGetExpression));
 
                 case SchemaOrigin.Text:
                     return new CodeVariableDeclarationStatement(
                         "XElement",
                         "x",
-                        new CodePropertyReferenceExpression(CodeDomHelper.This(), Constants.Untyped));
+                        new CodePropertyReferenceExpression(
+                            CodeDomHelper.This(), Constants.Untyped));
 
                 case SchemaOrigin.None:
                 default:
@@ -776,18 +785,24 @@ namespace Xml.Schema.Linq.CodeGen {
             }
         }
                
-        private CodeMethodInvokeExpression SetValueMethodCall() {
+        private CodeMethodInvokeExpression SetValueMethodCall() 
+        {
             CodeMethodInvokeExpression methodCall = null;
             string setMethodName = "Set";
-            if (!IsRef && IsSchemaList) {
+            bool isUnion = 
+                this.IsUnion && propertyOrigin != SchemaOrigin.Attribute;
+            if (!IsRef && IsSchemaList) 
+            {
                 setMethodName = string.Concat(setMethodName, "List");
             }
-            else if (IsUnion) {
+            else if (isUnion) 
+            {
                 setMethodName = string.Concat(setMethodName, "Union");
             }
             bool validation = Validation;
             bool xNameParm = true;
-            switch(propertyOrigin) {
+            switch(propertyOrigin) 
+            {
                 case SchemaOrigin.Element:
                     setMethodName = string.Concat(setMethodName, "Element");
                     break;
@@ -806,54 +821,75 @@ namespace Xml.Schema.Linq.CodeGen {
                 default:
                     throw new InvalidOperationException();                                                      
             }
-            if (IsUnion) {
-                if (xNameParm) {
-                    methodCall = CodeDomHelper.CreateMethodCall(CodeDomHelper.This(), setMethodName,
-                                                                CodeDomHelper.SetValue(), 
-                                                                new CodePrimitiveExpression(this.propertyName), 
-                                                                CodeDomHelper.This(), 
-                                                                xNameGetExpression, 
-                                                                GetSimpleTypeClassExpression());
-                            
+            if (isUnion) 
+            {
+                if (xNameParm) 
+                {
+                    methodCall = CodeDomHelper.CreateMethodCall(
+                        CodeDomHelper.This(), 
+                        setMethodName,
+                        CodeDomHelper.SetValue(), 
+                        new CodePrimitiveExpression(this.propertyName), 
+                        CodeDomHelper.This(), 
+                        xNameGetExpression, 
+                        GetSimpleTypeClassExpression());                            
                 }
-                else {
-                    methodCall = CodeDomHelper.CreateMethodCall(CodeDomHelper.This(), setMethodName, 
-                                                                CodeDomHelper.SetValue(),
-                                                                new CodePrimitiveExpression(this.propertyName), 
-                                                                CodeDomHelper.This(),
-                                                                GetSimpleTypeClassExpression());
+                else 
+                {
+                    methodCall = CodeDomHelper.CreateMethodCall(
+                        CodeDomHelper.This(), 
+                        setMethodName, 
+                        CodeDomHelper.SetValue(),
+                        new CodePrimitiveExpression(this.propertyName), 
+                        CodeDomHelper.This(),
+                        GetSimpleTypeClassExpression());
                 }
             }
-            else if (validation) {
+            else if (validation) 
+            {
                 setMethodName = string.Concat(setMethodName, "WithValidation");
-                if (xNameParm) {
-                    methodCall = CodeDomHelper.CreateMethodCall(CodeDomHelper.This(), setMethodName, 
-                                                                xNameGetExpression,
-                                                                CodeDomHelper.SetValue(), 
-                                                                new CodePrimitiveExpression(PropertyName), 
-                                                                GetSimpleTypeClassExpression());                
+                if (xNameParm) 
+                {
+                    methodCall = CodeDomHelper.CreateMethodCall(
+                        CodeDomHelper.This(), 
+                        setMethodName, 
+                        xNameGetExpression,
+                        CodeDomHelper.SetValue(), 
+                        new CodePrimitiveExpression(PropertyName), 
+                        GetSimpleTypeClassExpression());                
                 }
-                else {
-                    methodCall = CodeDomHelper.CreateMethodCall(CodeDomHelper.This(), setMethodName, 
-                                                                CodeDomHelper.SetValue(),
-                                                                new CodePrimitiveExpression(PropertyName), 
-                                                                GetSimpleTypeClassExpression());
+                else 
+                {
+                    methodCall = CodeDomHelper.CreateMethodCall(
+                        CodeDomHelper.This(), 
+                        setMethodName, 
+                        CodeDomHelper.SetValue(),
+                        new CodePrimitiveExpression(PropertyName), 
+                        GetSimpleTypeClassExpression());
                 }                                                                
             }
-            else {
-                if (xNameParm) {
-                    methodCall = CodeDomHelper.CreateMethodCall(CodeDomHelper.This(), setMethodName,
-                                                                xNameGetExpression, 
-                                                                CodeDomHelper.SetValue()
-                                                                );
-                    if (!IsRef && typeRef.IsSimpleType) {
-                        methodCall.Parameters.Add(GetSchemaDatatypeExpression());
+            else 
+            {
+                if (xNameParm) 
+                {
+                    methodCall = CodeDomHelper.CreateMethodCall(
+                        CodeDomHelper.This(), 
+                        setMethodName,
+                        xNameGetExpression, 
+                        CodeDomHelper.SetValue());
+                    if (!IsRef && typeRef.IsSimpleType) 
+                    {
+                        methodCall.Parameters.Add(
+                            GetSchemaDatatypeExpression());
                     }                                                           
                 }
-                else {
-                    methodCall = CodeDomHelper.CreateMethodCall(CodeDomHelper.This(), setMethodName,
-                                                                CodeDomHelper.SetValue(),
-                                                                GetSchemaDatatypeExpression());
+                else 
+                {
+                    methodCall = CodeDomHelper.CreateMethodCall(
+                        CodeDomHelper.This(), 
+                        setMethodName,
+                        CodeDomHelper.SetValue(),
+                        GetSchemaDatatypeExpression());
                 }
             }
             return methodCall;            

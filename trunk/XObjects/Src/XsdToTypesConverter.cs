@@ -151,31 +151,13 @@ namespace Xml.Schema.Linq.CodeGen
                 }
                 else
                 {
-                    /*
-                    XmlSchemaSimpleType simpleType = schemaType as XmlSchemaSimpleType;
-                    if (simpleType != null)
-                    {
-                        typeInfo = ClrSimpleTypeInfo.CreateSimpleTypeInfo(simpleType);
-                        typeInfo.IsAbstract = false;
-                        typeInfo.clrtypeName = symbol.identifierName;
-                        typeInfo.clrtypeNs = symbol.clrNamespace;
-                        typeInfo.schemaName = symbol.symbolName;
-                        typeInfo.schemaNs = xsdNamespace;
-                        typeInfo.typeOrigin = SchemaOrigin.Fragment;
-                        BuildAnnotationInformation(typeInfo, schemaType);
-                        binding.Types.Add(typeInfo);
-                    }
-                    else
-                    {
-                     * */
-                        ClrContentTypeInfo ctypeInfo = new ClrContentTypeInfo();
-                        localSymbolTable.Init(symbol.identifierName);
-                        // If element is member of substitutionGroup, add derivation step                    
-                        ctypeInfo.baseType = headElement;
-                        BuildProperties(elem, schemaType, ctypeInfo);
-                        BuildNestedTypes(ctypeInfo);
-                        typeInfo = ctypeInfo;
-                    //}
+                    ClrContentTypeInfo ctypeInfo = new ClrContentTypeInfo();
+                    localSymbolTable.Init(symbol.identifierName);
+                    // If element is member of substitutionGroup, add derivation step                    
+                    ctypeInfo.baseType = headElement;
+                    BuildProperties(elem, schemaType, ctypeInfo);
+                    BuildNestedTypes(ctypeInfo);
+                    typeInfo = ctypeInfo;
                 }
                 if (!isRoot)
                 {
