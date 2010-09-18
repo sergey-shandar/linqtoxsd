@@ -132,28 +132,50 @@ namespace Xml.Schema.Linq.CodeGen
                 XmlSchemaElement headElement = null;
                 if (!elem.SubstitutionGroup.IsEmpty)
                 {
-                    headElement = (XmlSchemaElement)schemas.GlobalElements[elem.SubstitutionGroup];
+                    headElement = 
+                        (XmlSchemaElement)schemas.GlobalElements[elem.SubstitutionGroup];
                 }
                 if (schemaType.IsGlobal())
                 { 
                     //Global elem with global type, generate wrapper class for the element
-                    bool hasBaseContentType = headElement != null && headElement.ElementSchemaType == schemaType;
+                    bool hasBaseContentType = 
+                        headElement != null && headElement.ElementSchemaType == schemaType;
                     ClrWrapperTypeInfo wtypeInfo = new ClrWrapperTypeInfo(hasBaseContentType);
                     ClrTypeReference typeDef = BuildTypeReference(
                         schemaType, schemaType.QualifiedName, false, true);
                     //Save the fixed/default value of the element                    
                     wtypeInfo.InnerType = typeDef;
                     typeInfo = wtypeInfo;
-                    typeInfo.baseType = headElement; //If element is member of substitutionGroup, add derivation step                    
+                    //If element is member of substitutionGroup, add derivation step
+                    typeInfo.baseType = headElement;                    
                 }
                 else
                 {
-                    ClrContentTypeInfo ctypeInfo = new ClrContentTypeInfo();
-                    localSymbolTable.Init(symbol.identifierName);
-                    ctypeInfo.baseType = headElement; //If element is member of substitutionGroup, add derivation step                    
-                    BuildProperties(elem, schemaType, ctypeInfo);
-                    BuildNestedTypes(ctypeInfo);
-                    typeInfo = ctypeInfo;
+                    /*
+                    XmlSchemaSimpleType simpleType = schemaType as XmlSchemaSimpleType;
+                    if (simpleType != null)
+                    {
+                        typeInfo = ClrSimpleTypeInfo.CreateSimpleTypeInfo(simpleType);
+                        typeInfo.IsAbstract = false;
+                        typeInfo.clrtypeName = symbol.identifierName;
+                        typeInfo.clrtypeNs = symbol.clrNamespace;
+                        typeInfo.schemaName = symbol.symbolName;
+                        typeInfo.schemaNs = xsdNamespace;
+                        typeInfo.typeOrigin = SchemaOrigin.Fragment;
+                        BuildAnnotationInformation(typeInfo, schemaType);
+                        binding.Types.Add(typeInfo);
+                    }
+                    else
+                    {
+                     * */
+                        ClrContentTypeInfo ctypeInfo = new ClrContentTypeInfo();
+                        localSymbolTable.Init(symbol.identifierName);
+                        // If element is member of substitutionGroup, add derivation step                    
+                        ctypeInfo.baseType = headElement;
+                        BuildProperties(elem, schemaType, ctypeInfo);
+                        BuildNestedTypes(ctypeInfo);
+                        typeInfo = ctypeInfo;
+                    //}
                 }
                 if (!isRoot)
                 {
@@ -187,7 +209,8 @@ namespace Xml.Schema.Linq.CodeGen
                 {
                     SymbolEntry symbol = symbolTable.AddType(simpleType);
                     string xsdNamespace = simpleType.QualifiedName.Namespace;
-                    ClrSimpleTypeInfo typeInfo = ClrSimpleTypeInfo.CreateSimpleTypeInfo(simpleType);//Create corresponding simple type info objects
+                    // Create corresponding simple type info objects
+                    ClrSimpleTypeInfo typeInfo = ClrSimpleTypeInfo.CreateSimpleTypeInfo(simpleType);
                     typeInfo.IsAbstract = false;
                     typeInfo.clrtypeName = symbol.identifierName;
                     typeInfo.clrtypeNs = symbol.clrNamespace;
@@ -849,11 +872,16 @@ namespace Xml.Schema.Linq.CodeGen
             return textProperty;
         }
 
-        private ClrPropertyInfo BuildSimpleTypeTextProperty(XmlSchemaElement parentElement,
-                                                            XmlSchemaSimpleType schemaType)
+        private ClrPropertyInfo BuildSimpleTypeTextProperty(
+            XmlSchemaElement parentElement, XmlSchemaSimpleType schemaType)
         {
             Debug.Assert(schemaType != null);
-            ClrPropertyInfo textProperty = new ClrPropertyInfo(Constants.SInnerTypePropertyName, string.Empty, Constants.SInnerTypePropertyName, Occurs.One);
+            ClrPropertyInfo textProperty = 
+                new ClrPropertyInfo(
+                    Constants.SInnerTypePropertyName, 
+                    string.Empty, 
+                    Constants.SInnerTypePropertyName, 
+                    Occurs.One);
             textProperty.Origin = SchemaOrigin.Text;
 
             bool anonymous = schemaType.QualifiedName.IsEmpty;
@@ -894,18 +922,24 @@ namespace Xml.Schema.Linq.CodeGen
                 schemaTypeName = elem.QualifiedName;
                 isTypeRef = true;
                 typeRefOrigin = SchemaOrigin.Element;
-                schemaObject = schemas.GlobalElements[schemaTypeName]; //For ref, get the element decl SOM object, as nameMappings are keyed off the SOM object
+                // For ref, get the element decl SOM object, as nameMappings are 
+                // keyed off the SOM object
+                schemaObject = schemas.GlobalElements[schemaTypeName]; 
                 anonymousType = false;
             }
 
-            ClrTypeReference typeRef = BuildTypeReference(schemaObject, schemaTypeName, anonymousType, true);
+            ClrTypeReference typeRef = BuildTypeReference(
+                schemaObject, schemaTypeName, anonymousType, true);
             typeRef.Origin = typeRefOrigin;
             typeRef.IsTypeRef = isTypeRef;
             if (anonymousType && !fromBaseType)
-            {//to fixup later.
+            {
+                //to fixup later.
                 localSymbolTable.AddAnonymousType(identifierName, elem, typeRef);
             }
-            ClrPropertyInfo propertyInfo = new ClrPropertyInfo(identifierName, schemaNs, schemaName, GetOccurence(elem));
+            ClrPropertyInfo propertyInfo = 
+                new ClrPropertyInfo(
+                    identifierName, schemaNs, schemaName, GetOccurence(elem));
             propertyInfo.Origin = SchemaOrigin.Element;
             propertyInfo.FromBaseType = fromBaseType;
             propertyInfo.TypeReference = typeRef;

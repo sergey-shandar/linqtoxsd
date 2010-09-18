@@ -76,13 +76,14 @@ namespace Xml.Schema.Linq
 
         }
 
-        protected void SetUnionValue(object value,
-                                    string propertyName,
-                                    XTypedElement container,
-                                    SimpleTypeValidator typeDef)
+        protected void SetUnionValue(
+            object value,
+            string propertyName,
+            XTypedElement container,
+            SimpleTypeValidator typeDef)
         {
-            SetUnionCatchAll(value, propertyName, this, null, typeDef, SchemaOrigin.Text);
-
+            SetUnionCatchAll(
+                value, propertyName, this, null, typeDef, SchemaOrigin.Text);
         }
 
         protected void SetUnionElement(
@@ -93,41 +94,53 @@ namespace Xml.Schema.Linq
             SimpleTypeValidator typeDef)
         {
             SetUnionCatchAll(
-                value, propertyName, container, itemXName, typeDef, SchemaOrigin.Element);
+                value, 
+                propertyName, 
+                container, 
+                itemXName, 
+                typeDef, 
+                SchemaOrigin.Element);
 
         }
 
-        protected void SetUnionAttribute(object value,
-                                        string propertyName,
-                                        XTypedElement container,
-                                        XName itemXName,
-                                        SimpleTypeValidator typeDef)
+        protected void SetUnionAttribute(
+            object value,
+            string propertyName,
+            XTypedElement container,
+            XName itemXName,
+            SimpleTypeValidator typeDef)
         {
-            SetUnionCatchAll(value, propertyName, container, itemXName, typeDef, SchemaOrigin.Attribute);
-
+            SetUnionCatchAll(
+                value, propertyName, container, itemXName, typeDef, SchemaOrigin.Attribute);
         }
 
 
-        private void SetUnionCatchAll(object value,
-                                       string propertyName,
-                                       XTypedElement container,
-                                       XName itemXName,
-                                       SimpleTypeValidator typeDef,
-                                       SchemaOrigin origin)
+        private void SetUnionCatchAll(
+            object value,
+            string propertyName,
+            XTypedElement container,
+            XName itemXName,
+            SimpleTypeValidator typeDef,
+            SchemaOrigin origin)
         {
-            UnionSimpleTypeValidator unionDef = typeDef as UnionSimpleTypeValidator;
+            UnionSimpleTypeValidator unionDef = 
+                typeDef as UnionSimpleTypeValidator;
 
             Debug.Assert(unionDef != null);
+
             SimpleTypeValidator matchingType = null;
             object typedValue;
-            Exception e = unionDef.TryParseValue(value,
-                                                   XTypedServices.NameTable,
-                                                 new XNamespaceResolver(container.GetUntyped()),
-                                                 out matchingType,
-                                                 out typedValue);
+            Exception e = unionDef.TryParseValue(
+                value,
+                XTypedServices.NameTable,
+                new XNamespaceResolver(container.GetUntyped()),
+                out matchingType,
+                out typedValue);
 
             if (e != null)
+            {
                 throw new LinqToXsdException(propertyName, e.Message);
+            }
             else
             {
                 if (matchingType is ListSimpleTypeValidator)
@@ -146,7 +159,6 @@ namespace Xml.Schema.Linq
                             break;
                         default:
                             break;
-
                     }
 
                 }

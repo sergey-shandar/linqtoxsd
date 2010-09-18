@@ -293,7 +293,9 @@ namespace Xml.Schema.Linq.CodeGen
                     Constants.SimpleTypeValidator, 
                     MemberAttributes.Public | MemberAttributes.Static, 
                     false);
-            typeField.InitExpression = SimpleTypeCodeDomHelper.CreateSimpleTypeDef(typeInfo, nameMappings, settings, false);
+            typeField.InitExpression = 
+                SimpleTypeCodeDomHelper.CreateSimpleTypeDef(
+                    typeInfo, nameMappings, settings, false);
             
             simpleTypeDecl.Members.Add(typeField);
 

@@ -143,21 +143,30 @@ namespace Xml.Schema.Linq.CodeGen
             }
         }
 
-        private void ProcessProperties(IEnumerable<ContentInfo> properties, List<ClrAnnotation> annotations) {
-            foreach(ContentInfo child in properties) { //Child can either be a property directly for attributes or a grouping for content model,
-                if (child.ContentType == ContentType.Property) {
+        private void ProcessProperties(
+            IEnumerable<ContentInfo> properties, 
+            List<ClrAnnotation> annotations)
+        {
+            foreach(ContentInfo child in properties) 
+            { 
+                //Child can either be a property directly for attributes or a grouping for content model,
+                if (child.ContentType == ContentType.Property) 
+                {
                     ClrPropertyInfo propertyInfo = child as ClrPropertyInfo;
                     propertyInfo.UpdateTypeReference(currentFullTypeName, currentNamespace, nameMappings);
                     typeBuilder.CreateAttributeProperty(child as ClrPropertyInfo, null);
                 }
-                else  {
+                else  
+                {
                     GroupingInfo rootGroup = child as GroupingInfo;
-                    if (rootGroup.IsComplex) {
+                    if (rootGroup.IsComplex) 
+                    {
                         typeBuilder.StartGrouping(rootGroup);
                         ProcessComplexGroupProperties(rootGroup, annotations);
                         typeBuilder.EndGrouping();
                     }
-                    else {
+                    else 
+                    {
                         ProcessGroup(rootGroup, annotations);
                     }                        
                 }

@@ -451,11 +451,14 @@ namespace Xml.Schema.Linq.CodeGen {
             
         }
 
-        internal ClrTypeReference TypeReference {
-            get {
+        internal ClrTypeReference TypeReference 
+        {
+            get 
+            {
                 return typeRef;
             }
-            set {
+            set 
+            {
                 typeRef = value;
             }
         }
@@ -1011,8 +1014,11 @@ namespace Xml.Schema.Linq.CodeGen {
                     if(DefaultValue != null)
                     {
                          ((CodeMethodInvokeExpression)returnExp).Parameters.Add(
-                                            new CodeFieldReferenceExpression(null,
-                                                NameGenerator.ChangeClrName(this.propertyName, NameOptions.MakeDefaultValueField)));
+                            new CodeFieldReferenceExpression(
+                                null,
+                                NameGenerator.ChangeClrName(
+                                    this.propertyName, 
+                                    NameOptions.MakeDefaultValueField)));
                     }
                 }
             }
