@@ -790,7 +790,7 @@ namespace Xml.Schema.Linq.CodeGen {
             CodeMethodInvokeExpression methodCall = null;
             string setMethodName = "Set";
             bool isUnion = 
-                this.IsUnion && propertyOrigin != SchemaOrigin.Attribute;
+                this.IsUnion && propertyOrigin != SchemaOrigin.Element;
             if (!IsRef && IsSchemaList) 
             {
                 setMethodName = string.Concat(setMethodName, "List");

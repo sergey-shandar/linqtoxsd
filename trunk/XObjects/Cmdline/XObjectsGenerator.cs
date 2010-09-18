@@ -15,7 +15,9 @@ using System.Reflection;
 
 namespace XObjectsGenerator
 {
-    public class XObjectsGenerator {
+    using System.Linq;
+    public class XObjectsGenerator 
+    {
 
         public static Assembly ThisAssembly;
 
@@ -151,17 +153,22 @@ namespace XObjectsGenerator
             }
             if(assemblyName != string.Empty)
             {
-                CompilerParameters options = new CompilerParameters();
-                options.OutputAssembly = assemblyName;
-                options.IncludeDebugInformation = true;
-                options.TreatWarningsAsErrors = true;
+                var options = new CompilerParameters()
+                {
+                    OutputAssembly = assemblyName,
+                    IncludeDebugInformation = true,
+                    TreatWarningsAsErrors = true,
+                };
                 options.TempFiles.KeepFiles = true;
-                options.ReferencedAssemblies.Add("System.dll");
-                options.ReferencedAssemblies.Add("System.Core.dll");
-                options.ReferencedAssemblies.Add("System.Xml.dll");
-                options.ReferencedAssemblies.Add("System.Xml.Linq.dll");
-                options.ReferencedAssemblies.Add("Xml.Schema.Linq.dll");
-                CompilerResults results = provider.CompileAssemblyFromDom(options, ccu);
+                {
+                    var r = options.ReferencedAssemblies;
+                    r.Add("System.dll");
+                    r.Add("System.Core.dll");
+                    r.Add("System.Xml.dll");
+                    r.Add("System.Xml.Linq.dll");
+                    r.Add("Xml.Schema.Linq.dll");
+                }
+                var results = provider.CompileAssemblyFromDom(options, ccu);
                 if (results.Errors.Count > 0)
                 {
                     PrintErrorMessage("compilation error(s): ");
@@ -174,7 +181,7 @@ namespace XObjectsGenerator
                 else
                 {
                     PrintMessage(
-                        "Generated Assembly: " + 
+                        "Generated Assembly: " +
                         results.CompiledAssembly.ToString());
                 }
             }
