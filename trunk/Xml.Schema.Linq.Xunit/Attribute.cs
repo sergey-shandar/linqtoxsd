@@ -57,7 +57,7 @@
         }
 
         [X.Fact]
-        public void UnionElement2()
+        public void Issue5600()
         {
             this.UnionTest(R.Element2);
         }
