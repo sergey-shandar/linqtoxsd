@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<add xmlns="http://LinqToXsdSamples/Schemas/ExpSubst">
+  <succ>
+    <zero/>
+  </succ>
+  <zero/>
+</add>

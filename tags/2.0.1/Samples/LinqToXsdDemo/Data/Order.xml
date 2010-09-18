@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Order xmlns="http://www.vertical.com/Order">
+  <CustId>0815</CustId>
+  <Item>
+    <ProdId>1234</ProdId>
+    <Price>37</Price>
+    <Quantity>2</Quantity>
+  </Item>
+  <Item>
+    <ProdId>5678</ProdId>
+    <Price>1.5</Price>
+    <Quantity>3</Quantity>
+  </Item>
+</Order>

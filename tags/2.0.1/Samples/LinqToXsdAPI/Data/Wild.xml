@@ -1,0 +1,9 @@
+﻿<Product 
+  xmlns="http://LinqToXsdSamples/Schemas/Wild"
+  xmlns:other="http://LinqToXsdSamples/Schemas/Other"
+  other:points="100">
+  <Number>557</Number>
+  <Name>Short-Sleeved Linen Blouse</Name>
+  <Size>10</Size>
+  <other:giftWrap>ADULT BDAY</other:giftWrap>
+</Product>

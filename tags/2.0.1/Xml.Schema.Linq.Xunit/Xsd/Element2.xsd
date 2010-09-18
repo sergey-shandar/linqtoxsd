@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="A"
+	xmlns:A="A">
+
+  <xs:element name="account">
+    <xs:simpleType>
+      <xs:union memberTypes="xs:string" />
+    </xs:simpleType>
+  </xs:element>
+
+  <xs:element name="root">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="A:account"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

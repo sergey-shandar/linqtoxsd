@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<report>
+  <style file="../../Data/Orders.xsd" g_elds="3" g_ctds="0" l_elds="4" l_elrs="2" l_ctds="3">Unknown style</style>
+  <style file="../../Data/Company.xsd" g_elds="3" g_ctds="1" l_elds="5" l_elrs="3" l_ctds="3">Unknown style</style>
+  <style file="../../Data/xsdschema.xsd" g_elds="44" g_ctds="35" l_elds="28" l_elrs="77" l_ctds="22">Unknown style</style>
+  <style file="../../Data/schemas.xsd" g_elds="1" g_ctds="0" l_elds="13" l_elrs="3" l_ctds="9">Unknown style</style>
+  <style file="../../Data/MSBuild/Microsoft.Build.Commontypes.xsd" g_elds="217" g_ctds="0" l_elds="68" l_elrs="0" l_ctds="68">Russian Doll</style>
+</report>
