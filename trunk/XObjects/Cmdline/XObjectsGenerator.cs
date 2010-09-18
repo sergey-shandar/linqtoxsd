@@ -98,10 +98,10 @@ namespace XObjectsGenerator
             set.ValidationEventHandler  -= veh;
             if (set.Count > 0 && set.IsCompiled) 
             {
-                /*
+                
                 GenerateXObjects(
                     set, csFileName, configFileName, assemblyName, xmlSerializable, nameMangler2);
-                */
+                
                 try 
                 {
                     GenerateXObjects(

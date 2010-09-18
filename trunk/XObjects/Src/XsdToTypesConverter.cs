@@ -194,16 +194,16 @@ namespace Xml.Schema.Linq.CodeGen
         {
             foreach (XmlSchemaAttribute a in schemas.GlobalAttributes.Values)
             {
-                if (a.SchemaTypeName.IsEmpty)
+                if (a.AttributeSchemaType.QualifiedName.IsEmpty)
                 {
-                    this.AddSimpleType((XmlSchemaSimpleType)a.SchemaType);
+                    this.AddSimpleType(a.QualifiedName, a.AttributeSchemaType);
                 }
             }
         }
 
-        internal void AddSimpleType(XmlSchemaSimpleType simpleType)
+        internal void AddSimpleType(XmlQualifiedName name, XmlSchemaSimpleType simpleType)
         {
-            SymbolEntry symbol = symbolTable.AddType(simpleType);
+            SymbolEntry symbol = symbolTable.AddType(name, simpleType);
             string xsdNamespace = simpleType.QualifiedName.Namespace;
             // Create corresponding simple type info objects
             ClrSimpleTypeInfo typeInfo = ClrSimpleTypeInfo.CreateSimpleTypeInfo(simpleType);
@@ -222,14 +222,14 @@ namespace Xml.Schema.Linq.CodeGen
             XmlSchemaSimpleType simpleType = st as XmlSchemaSimpleType;
             if (simpleType != null)
             {
-                this.AddSimpleType(simpleType);
+                this.AddSimpleType(simpleType.QualifiedName, simpleType);
             }
             else
             {
                 XmlSchemaComplexType ct = st as XmlSchemaComplexType;
                 if (ct != null && ct.TypeCode != XmlTypeCode.Item)
                 {
-                    SymbolEntry symbol = symbolTable.AddType(ct);
+                    SymbolEntry symbol = symbolTable.AddType(ct.QualifiedName, ct);
                     string xsdNamespace = ct.QualifiedName.Namespace;
 
                     localSymbolTable.Init(symbol.identifierName);

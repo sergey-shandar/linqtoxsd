@@ -549,23 +549,32 @@ namespace Xml.Schema.Linq.CodeGen {
             }
         }
         
-        internal string GetSimpleTypeClrTypeDefName(string parentTypeClrNs, Dictionary<XmlSchemaObject, string> nameMappings) {
+        internal string GetSimpleTypeClrTypeDefName(string parentTypeClrNs, Dictionary<XmlSchemaObject, string> nameMappings) 
+        {
             Debug.Assert(this.IsSimpleType);
             string clrTypeName = null;
             XmlSchemaObject key = schemaObject;
-            if (IsTypeRef) { //schema object is element
+            if (IsTypeRef) 
+            { 
+                //schema object is element
                 key = ((XmlSchemaElement)schemaObject).ElementSchemaType as XmlSchemaSimpleType;
                 Debug.Assert(key != null);
             }
             string identifier = null;
-            if (nameMappings.TryGetValue(key, out identifier)) {
+            if (nameMappings.TryGetValue(key, out identifier)) 
+            {
                 clrTypeName = identifier;
             }
-            else {
+            else 
+            {
                 clrTypeName = typeName;
             }
-            if (typeNs != string.Empty && !IsLocalType) { //Namespace of the property's type is different than the namespace of the enclosing CLR Type
-                 clrTypeName = "global::" + typeNs + "." + clrTypeName;
+            if (!IsLocalType)
+            {
+                var ns = typeNs == string.Empty ? parentTypeClrNs : typeNs;
+                // Namespace of the property's type is different than the 
+                // namespace of the enclosing CLR Type
+                clrTypeName = "global::" + ns + "." + clrTypeName;
             }
             return clrTypeName;
         }
