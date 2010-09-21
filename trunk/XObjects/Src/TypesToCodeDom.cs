@@ -482,7 +482,8 @@ namespace Xml.Schema.Linq.CodeGen
             return null;
         }
 
-        private void AddDefaultImports(CodeNamespace newCodeNamespace) {
+        private void AddDefaultImports(CodeNamespace newCodeNamespace) 
+        {
             newCodeNamespace.Imports.Add(new CodeNamespaceImport("System"));
             newCodeNamespace.Imports.Add(new CodeNamespaceImport("System.Collections"));
             newCodeNamespace.Imports.Add(new CodeNamespaceImport("System.Collections.Generic"));

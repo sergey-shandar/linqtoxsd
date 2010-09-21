@@ -194,7 +194,9 @@ namespace Xml.Schema.Linq.CodeGen
         {
             foreach (XmlSchemaAttribute a in schemas.GlobalAttributes.Values)
             {
-                if (a.AttributeSchemaType.QualifiedName.IsEmpty)
+                if (
+                    a.AttributeSchemaType.QualifiedName.IsEmpty && 
+                    a.AttributeSchemaType.IsOrHasUnion())
                 {
                     this.AddSimpleType(a.QualifiedName, a.AttributeSchemaType);
                 }

@@ -62,5 +62,11 @@
             this.UnionTest(R.Element2);
         }
 
+        [X.Fact]
+        public void AttributeSimple()
+        {
+            this.UnionTest(R.Simple);
+        }
+
     }
 }

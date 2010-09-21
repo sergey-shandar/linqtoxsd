@@ -144,6 +144,30 @@ namespace Xml.Schema.Linq.Xunit.Properties {
         ///	targetNamespace=&quot;A&quot;
         ///	xmlns:A=&quot;A&quot;&gt;
         ///
+        ///  &lt;xs:attribute name=&quot;a&quot;&gt;
+        ///    &lt;xs:simpleType&gt;
+        ///      &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+        ///        &lt;xs:enumeration value=&quot;a&quot;/&gt;
+        ///        &lt;xs:enumeration value=&quot;b&quot;/&gt;
+        ///      &lt;/xs:restriction&gt;
+        ///    &lt;/xs:simpleType&gt;
+        ///  &lt;/xs:attribute&gt;  
+        ///
+        ///&lt;/xs:schema&gt;.
+        /// </summary>
+        internal static string Simple {
+            get {
+                return ResourceManager.GetString("Simple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;xs:schema
+        ///	xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;
+        ///	targetNamespace=&quot;A&quot;
+        ///	xmlns:A=&quot;A&quot;&gt;
+        ///
         ///  &lt;xs:element name=&quot;account&quot;&gt;
         ///    &lt;xs:complexType&gt;
         ///      &lt;xs:attribute ref=&quot;A:account&quot;/&gt;

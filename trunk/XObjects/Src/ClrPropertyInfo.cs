@@ -567,29 +567,39 @@ namespace Xml.Schema.Linq.CodeGen {
             }
         }
 
-        internal override bool IsNew {
-            get {
+        internal override bool IsNew 
+        {
+            get 
+            {
                 return (propertyFlags & PropertyFlags.IsNew) != 0;
             }
-            set {
-                if (value) {
+            set 
+            {
+                if (value) 
+                {
                     propertyFlags |= PropertyFlags.IsNew;
                 }
-                else {
+                else 
+                {
                     propertyFlags &= ~PropertyFlags.IsNew;
                 }
             }
         }
         
-        internal override bool VerifyRequired {
-            get {
+        internal override bool VerifyRequired 
+        {
+            get 
+            {
                 return (propertyFlags & PropertyFlags.VerifyRequired) != 0;
             }
-            set {
-                if (value) {
+            set 
+            {
+                if (value) 
+                {
                     propertyFlags |= PropertyFlags.VerifyRequired;
                 }
-                else {
+                else 
+                {
                     propertyFlags &= ~PropertyFlags.VerifyRequired;
                 }
             }
@@ -610,7 +620,8 @@ namespace Xml.Schema.Linq.CodeGen {
                     }
                     else if (!IsRef && typeRef.IsValueType && IsNullable ) 
                     {
-                        returnType = new XCodeTypeReference("System.Nullable", new CodeTypeReference(fullTypeName));
+                        returnType = new XCodeTypeReference(
+                            "System.Nullable", new CodeTypeReference(fullTypeName));
                     }
                     else 
                     {
@@ -650,102 +661,152 @@ namespace Xml.Schema.Linq.CodeGen {
             this.parentTypeFullName = clrFullTypeName;
         }
 
-        internal void SetPropertyAttributes(CodeMemberProperty clrProperty) {
-             
-                if (isVirtual) {
-                    clrProperty.Attributes = 
-                        (( clrProperty.Attributes & ~MemberAttributes.ScopeMask & ~MemberAttributes.AccessMask) | MemberAttributes.Public);    
-                }
-                else if (isOverride) {
-                    clrProperty.Attributes = 
-                        (( clrProperty.Attributes & ~MemberAttributes.ScopeMask & ~MemberAttributes.AccessMask) | MemberAttributes.Public | MemberAttributes.Override);
-                }
-                
+        internal void SetPropertyAttributes(CodeMemberProperty clrProperty) 
+        {             
+            if (isVirtual) 
+            {
+                clrProperty.Attributes = 
+                    (  clrProperty.Attributes & 
+                        ~MemberAttributes.ScopeMask & 
+                        ~MemberAttributes.AccessMask) | 
+                    MemberAttributes.Public;
+            }
+            else if (isOverride) 
+            {
+                clrProperty.Attributes = 
+                    (  clrProperty.Attributes & 
+                        ~MemberAttributes.ScopeMask & 
+                        ~MemberAttributes.AccessMask) | 
+                    MemberAttributes.Public | 
+                    MemberAttributes.Override;
+            }                
         }
 
-        internal override CodeMemberProperty AddToType(CodeTypeDeclaration parentTypeDecl, List<ClrAnnotation> annotations) {
-            if (IsDuplicate || (FromBaseType && !IsNew)) {
+        internal override CodeMemberProperty AddToType(
+            CodeTypeDeclaration parentTypeDecl, List<ClrAnnotation> annotations)
+        {
+            if (IsDuplicate || (FromBaseType && !IsNew)) 
+            {
                 return null;
             }
             CreateFixedDefaultValue(parentTypeDecl);
-            CodeMemberProperty clrProperty = CodeDomHelper.CreateProperty(ReturnType, hasSet);
+            CodeMemberProperty clrProperty = CodeDomHelper.CreateProperty(
+                ReturnType, hasSet);
             clrProperty.Name = propertyName;
             SetPropertyAttributes(clrProperty);
-            if (IsNew) {
+            
+            if (IsNew) 
+            {
                 clrProperty.Attributes |= MemberAttributes.New;
             }
-            if (IsList) {
+
+            if (IsList) 
+            {
                 //Create collection type for list
                 CodeTypeReference listType = GetListType();
-                string listName = NameGenerator.ChangeClrName(propertyName, NameOptions.MakeField);
+                string listName = NameGenerator.ChangeClrName(
+                    propertyName, NameOptions.MakeField);
                 AddMemberField(listName, listType, parentTypeDecl);
 
                 //GetStatements
-                AddListGetStatements(clrProperty.GetStatements, listType, listName);
-                if (hasSet) {
+                AddListGetStatements(
+                    clrProperty.GetStatements, listType, listName);
+                if (hasSet) 
+                {
                     AddListSetStatements(clrProperty.SetStatements, listType, listName);
                 }
             }
-            else {
+            else 
+            {
                 AddGetStatements(clrProperty.GetStatements);
-                if (hasSet) {
+                if (hasSet) 
+                {
                     AddSetStatements(clrProperty.SetStatements);
                 }
             }
+
             ApplyAnnotations(clrProperty, annotations);
             parentTypeDecl.Members.Add(clrProperty);
             return clrProperty;
         }
 
-        internal override void AddToContentModel(CodeObjectCreateExpression contentModelExpression) {
-            Debug.Assert(contentModelExpression != null && propertyOrigin == SchemaOrigin.Element);
-            if (this.IsSubstitutionHead) { //Need to add member names to content model
-                CodeExpression[] substParams = new CodeExpression[substitutionMembers.Count];
+        internal override void AddToContentModel(
+            CodeObjectCreateExpression contentModelExpression) 
+        {
+            Debug.Assert(
+                contentModelExpression != null && 
+                propertyOrigin == SchemaOrigin.Element);
+
+            if (this.IsSubstitutionHead) 
+            { 
+                //Need to add member names to content model
+                CodeExpression[] substParams = new CodeExpression[
+                    substitutionMembers.Count];
                 int i = 0;
-                foreach(XmlSchemaElement elem in substitutionMembers) {
-                    substParams[i++] = CodeDomHelper.XNameGetExpression(elem.QualifiedName.Name, elem.QualifiedName.Namespace);
+                foreach(XmlSchemaElement elem in substitutionMembers) 
+                {
+                    substParams[i++] = CodeDomHelper.XNameGetExpression(
+                        elem.QualifiedName.Name, elem.QualifiedName.Namespace);
                 }
                 contentModelExpression.Parameters.Add(
-                    new CodeObjectCreateExpression(Constants.SubstitutedContentModelEntity,
-                    substParams));
+                    new CodeObjectCreateExpression(
+                        Constants.SubstitutedContentModelEntity, substParams));
             }
-            else {
+            else 
+            {
                 contentModelExpression.Parameters.Add(
-                    new CodeObjectCreateExpression(Constants.NamedContentModelEntity,
-                    xNameGetExpression));
+                    new CodeObjectCreateExpression(
+                        Constants.NamedContentModelEntity, xNameGetExpression));
             }
         }
 
-        internal override void AddToConstructor(CodeConstructor functionalConstructor) {
-            if (IsList) {
-
-                functionalConstructor.Parameters.Add(new CodeParameterDeclarationExpression(new CodeTypeReference("IEnumerable", new CodeTypeReference(clrTypeName)), propertyName));
-                if (FromBaseType) {
-                    functionalConstructor.BaseConstructorArgs.Add(new CodeVariableReferenceExpression(propertyName));
+        internal override void AddToConstructor(CodeConstructor functionalConstructor) 
+        {
+            if (IsList) 
+            {
+                functionalConstructor.Parameters.Add(
+                    new CodeParameterDeclarationExpression(
+                        new CodeTypeReference(
+                            "IEnumerable", new CodeTypeReference(clrTypeName)),
+                        propertyName));
+                if (FromBaseType) 
+                {
+                    functionalConstructor.BaseConstructorArgs.Add(
+                        new CodeVariableReferenceExpression(propertyName));
                 }
-                else {
+                else 
+                {
                     CodeTypeReference listType = GetListType();
                     functionalConstructor.Statements.Add(
-                            new CodeAssignStatement(
-                                CodeDomHelper.CreateFieldReference("this", NameGenerator.ChangeClrName(propertyName, NameOptions.MakeField)),
-                                new CodeMethodInvokeExpression(
-                                    new CodeTypeReferenceExpression(listType),
-                                    Constants.Initialize,
-                                    GetListParameters(true /*set*/, true /*constructor*/))
-                            ));
+                        new CodeAssignStatement(
+                            CodeDomHelper.CreateFieldReference(
+                                "this", 
+                                NameGenerator.ChangeClrName(
+                                    propertyName, NameOptions.MakeField)),
+                            new CodeMethodInvokeExpression(
+                                new CodeTypeReferenceExpression(listType),
+                                Constants.Initialize,
+                                GetListParameters(
+                                    true /*set*/, true /*constructor*/))));
                 }
             }
-            else {
-                functionalConstructor.Parameters.Add(new CodeParameterDeclarationExpression(ReturnType, propertyName));
-                if (FromBaseType) {
-                    functionalConstructor.BaseConstructorArgs.Add(new CodeVariableReferenceExpression(propertyName));
+            else 
+            {
+                functionalConstructor.Parameters.Add(
+                    new CodeParameterDeclarationExpression(
+                        ReturnType, propertyName));
+                if (FromBaseType) 
+                {
+                    functionalConstructor.BaseConstructorArgs.Add(
+                        new CodeVariableReferenceExpression(propertyName));
                 }
-                else {
+                else 
+                {
                     functionalConstructor.Statements.Add(
-                            new CodeAssignStatement(
-                                CodeDomHelper.CreateFieldReference("this", propertyName),
-                                new CodeVariableReferenceExpression(propertyName)
-                            ));
+                        new CodeAssignStatement(
+                            CodeDomHelper.CreateFieldReference(
+                                "this", propertyName),
+                            new CodeVariableReferenceExpression(propertyName)));
                 }
             }
         }
@@ -895,7 +956,11 @@ namespace Xml.Schema.Linq.CodeGen {
             return methodCall;            
         }
 
-        private void AddListGetStatements(CodeStatementCollection getStatements, CodeTypeReference listType, string listName) {
+        private void AddListGetStatements(
+            CodeStatementCollection getStatements, 
+            CodeTypeReference listType, 
+            string listName)
+        {
             if (FixedValue != null) {
                 getStatements.Add(
                     new CodeMethodReturnStatement(

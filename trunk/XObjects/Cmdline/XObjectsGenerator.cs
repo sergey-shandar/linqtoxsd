@@ -98,10 +98,10 @@ namespace XObjectsGenerator
             set.ValidationEventHandler  -= veh;
             if (set.Count > 0 && set.IsCompiled) 
             {
-                
+                /*
                 GenerateXObjects(
                     set, csFileName, configFileName, assemblyName, xmlSerializable, nameMangler2);
-                
+                */
                 try 
                 {
                     GenerateXObjects(
@@ -208,26 +208,40 @@ namespace XObjectsGenerator
         private static void PrintErrorMessage(ValidationEventArgs args)
         {
 
-            Console.Error.WriteLine("{0}({1},{2}): {3} TX0001: {4}", 
-                                    args.Exception.SourceUri.Replace("file:///", "").Replace('/', '\\'), 
-                                    args.Exception.LineNumber,
-                                    args.Exception.LinePosition, 
-                                    args.Severity == XmlSeverityType.Warning ? "warning" : "error",
-                                    args.Message);
+            Console.Error.WriteLine(
+                "{0}({1},{2}): {3} TX0001: {4}", 
+                args.Exception.SourceUri.Replace("file:///", "").Replace('/', '\\'), 
+                args.Exception.LineNumber,
+                args.Exception.LinePosition, 
+                args.Severity == XmlSeverityType.Warning ? "warning" : "error",
+                args.Message);
         }
 
         private static void PrintHeader() {
-            Console.WriteLine(String.Format(CultureInfo.CurrentCulture, "[Microsoft (R) .NET Framework, Version {0}]", ThisAssembly.ImageRuntimeVersion));
+            Console.WriteLine(
+                String.Format(
+                    CultureInfo.CurrentCulture, 
+                    "[Microsoft (R) .NET Framework, Version {0}]", 
+                    ThisAssembly.ImageRuntimeVersion));
         }
-        private static void PrintHelp() {
+
+        private static void PrintHelp() 
+        {
             PrintHeader();
             string name = ThisAssembly.GetName().Name;
             Console.WriteLine();
-            Console.WriteLine(name + " - " + "Utility to generate typed wrapper classes from a XML Schema");
-            Console.WriteLine("Usage: " + name + " <schemaFile> [one or more schema files] [/fileName:<csFileName>.cs] [/lib:<assemblyName>] [/config:<configFileName>.xml] [/enableServiceReference] [/nameMangler2]");
+            Console.WriteLine(
+                name + 
+                " - " + 
+                "Utility to generate typed wrapper classes from a XML Schema");
+            Console.WriteLine(
+                "Usage: " + 
+                name + 
+                " <schemaFile> [one or more schema files] [/fileName:<csFileName>.cs] [/lib:<assemblyName>] [/config:<configFileName>.xml] [/enableServiceReference] [/nameMangler2]");
         }
 
-        private static void ValidationCallback(object sender, ValidationEventArgs args) {
+        private static void ValidationCallback(object sender, ValidationEventArgs args) 
+        {
             PrintErrorMessage(args);
         }
 

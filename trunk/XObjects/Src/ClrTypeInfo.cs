@@ -549,7 +549,9 @@ namespace Xml.Schema.Linq.CodeGen {
             }
         }
         
-        internal string GetSimpleTypeClrTypeDefName(string parentTypeClrNs, Dictionary<XmlSchemaObject, string> nameMappings) 
+        internal string GetSimpleTypeClrTypeDefName(
+            string parentTypeClrNs, 
+            Dictionary<XmlSchemaObject, string> nameMappings)
         {
             Debug.Assert(this.IsSimpleType);
             string clrTypeName = null;
