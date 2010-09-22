@@ -66,6 +66,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Xsd\Basic.xsd" />
+    <None Include="Xsd\Attribute.xsd" />
+    <None Include="Xsd\AttributeUse.xsd" />
     <None Include="Xsd\Simple.xsd" />
     <None Include="Xsd\Element2.xsd" />
     <None Include="Xsd\Element.xsd" />

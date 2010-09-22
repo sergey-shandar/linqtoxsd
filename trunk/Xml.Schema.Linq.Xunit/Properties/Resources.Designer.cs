@@ -81,6 +81,57 @@ namespace Xml.Schema.Linq.Xunit.Properties {
         ///
         ///&lt;/xs:schema&gt;.
         /// </summary>
+        internal static string Attribute {
+            get {
+                return ResourceManager.GetString("Attribute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;xs:schema
+        ///	xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;
+        ///	targetNamespace=&quot;B&quot;
+        ///	xmlns:A=&quot;A&quot;
+        ///  xmlns:B=&quot;B&quot;&gt;
+        ///
+        ///  &lt;xs:import namespace=&quot;A&quot; schemaLocation=&quot;Attribute.xsd&quot;/&gt;
+        ///  
+        ///  &lt;xs:element name=&quot;account&quot;&gt;
+        ///    &lt;xs:complexType&gt;
+        ///      &lt;xs:attribute ref=&quot;A:a&quot;/&gt;
+        ///    &lt;/xs:complexType&gt;
+        ///  &lt;/xs:element&gt;
+        ///
+        ///&lt;/xs:schema&gt;.
+        /// </summary>
+        internal static string AttributeUse {
+            get {
+                return ResourceManager.GetString("AttributeUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;xs:schema
+        ///	xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;
+        ///	targetNamespace=&quot;A&quot;
+        ///	xmlns:A=&quot;A&quot;&gt;
+        ///
+        ///  &lt;xs:element name=&quot;account&quot;&gt;
+        ///    &lt;xs:complexType&gt;
+        ///      &lt;xs:attribute ref=&quot;A:a&quot;/&gt;
+        ///    &lt;/xs:complexType&gt;
+        ///  &lt;/xs:element&gt;
+        ///
+        ///  &lt;xs:attribute name=&quot;a&quot;&gt;
+        ///    &lt;xs:simpleType&gt;
+        ///      &lt;xs:union memberTypes=&quot;xs:string&quot; /&gt;
+        ///    &lt;/xs:simpleType&gt;
+        ///  &lt;/xs:attribute&gt;
+        ///
+        ///&lt;/xs:schema&gt;.
+        /// </summary>
         internal static string Basic {
             get {
                 return ResourceManager.GetString("Basic", resourceCulture);

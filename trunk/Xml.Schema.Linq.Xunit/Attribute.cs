@@ -18,16 +18,19 @@
             G.GenerateXObjects(set, null, null, null, true, false);
         }
 
-        public void UnionTest(string s)
+        public void UnionTest(params string[] s)
         {
             var set = new S.XmlSchemaSet();
             var settings = new XML.XmlReaderSettings()
             {
                 DtdProcessing = XML.DtdProcessing.Parse,
             };
-            var reader = new System.IO.StringReader(s);
-            var r = XML.XmlReader.Create(reader, settings);
-            set.Add(null, r);
+            foreach (var i in s)
+            {
+                var reader = new System.IO.StringReader(i);
+                var r = XML.XmlReader.Create(reader, settings);
+                set.Add(null, r);
+            }
             G.ThisAssembly = A.GetExecutingAssembly();
             G.GenerateXObjects(set, "temp.cs", null, null, true, false);
         }
@@ -66,6 +69,12 @@
         public void AttributeSimple()
         {
             this.UnionTest(R.Simple);
+        }
+
+        [X.Fact]
+        public void Import()
+        {
+            this.UnionTest(R.AttributeUse, R.Attribute);
         }
 
     }

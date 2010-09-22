@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="B"
+	xmlns:A="A"
+  xmlns:B="B">
+
+  <xs:import namespace="A" schemaLocation="Attribute.xsd"/>
+  
+  <xs:element name="account">
+    <xs:complexType>
+      <xs:attribute ref="A:a"/>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
