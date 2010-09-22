@@ -983,10 +983,15 @@ namespace Xml.Schema.Linq.CodeGen
             propertyInfo.VerifyRequired = configSettings.VerifyRequired;
 
             XmlSchemaSimpleType schemaType = attribute.AttributeSchemaType;
+            var qName = schemaType.QualifiedName;
+            if(qName.IsEmpty)
+            {
+                qName = attribute.QualifiedName;
+            }
             // http://linqtoxsd.codeplex.com/WorkItem/View.aspx?WorkItemId=4106
             ClrTypeReference typeRef = BuildTypeReference(
-                schemaType, 
-                attribute.AttributeSchemaType.QualifiedName,
+                schemaType,
+                qName,
                 false, 
                 true);
             propertyInfo.TypeReference = typeRef;

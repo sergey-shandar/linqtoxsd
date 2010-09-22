@@ -4,12 +4,6 @@
 	targetNamespace="A"
 	xmlns:A="A">
 
-  <xs:element name="account">
-    <xs:complexType>
-      <xs:attribute ref="A:a"/>
-    </xs:complexType>
-  </xs:element>
-
   <xs:attribute name="a">
     <xs:simpleType>
       <xs:union memberTypes="xs:string" />
