@@ -14,17 +14,22 @@ using System.Reflection;
 using Xml.Schema.Linq.CodeGen;
 using System.Text;
 
-namespace Xml.Schema.Linq {
+namespace Xml.Schema.Linq 
+{
 
-    public class FSM {
+    public class FSM 
+    {
         internal static int InvalidState = default(int);
         
         private readonly int startState;
         private readonly Set<int> acceptStates;
         private readonly IDictionary<int, Transitions> trans;
         
-        public FSM(int startState, Set<int> acceptStates, 
-	               IDictionary<int, Transitions> trans) {
+        public FSM(
+            int startState, 
+            Set<int> acceptStates, 
+            IDictionary<int, Transitions> trans)
+        {
             this.startState = startState; 
             this.acceptStates = acceptStates;
             this.trans = trans;
@@ -34,25 +39,32 @@ namespace Xml.Schema.Linq {
 
         public Set<int> Accept { get { return acceptStates; } }
 
-        public IDictionary<int, Transitions> Trans { 
+        public IDictionary<int, Transitions> Trans 
+        { 
             get { return trans; }
         }
 
-        public override String ToString() {
+        public override String ToString() 
+        {
             return "DFA start=" + startState + "\naccept=" + acceptStates;
         }
 
-        public bool isAccept(int state) {
+        public bool isAccept(int state) 
+        {
             return this.acceptStates.Contains(state);
         }
 
-        internal void AddTransitions(FSM otherFSM) {
-            foreach(KeyValuePair<int, Transitions> pair in otherFSM.Trans) {
+        internal void AddTransitions(FSM otherFSM) 
+        {
+            foreach(KeyValuePair<int, Transitions> pair in otherFSM.Trans) 
+            {
                 this.trans.Add(pair);
             }
         }
 
-        internal static void CloneTransitions(FSM srcFsm, int srcState, FSM destFsm, int destState) {
+        internal static void CloneTransitions(
+            FSM srcFsm, int srcState, FSM destFsm, int destState) 
+        {
             //Clone the transitions from srcState to destState
             Transitions srcTrans = null;
             srcFsm.Trans.TryGetValue(srcState, out srcTrans);
@@ -71,68 +83,98 @@ namespace Xml.Schema.Linq {
         }
     }
     
-    public class SingleTransition {
+    public class SingleTransition 
+    {
         internal XName nameLabel;
         internal WildCard wcLabel;
         internal int nextState;
 
-        public SingleTransition(XName name, int newState) {
+        public SingleTransition(XName name, int newState) 
+        {
             nameLabel = name;
             wcLabel = null;
             nextState = newState;
         }
 
-        public SingleTransition(WildCard wildCard, int newState) {
+        public SingleTransition(WildCard wildCard, int newState) 
+        {
             wcLabel = wildCard;
             nameLabel = null;
             nextState = newState;
         }
     }
 
-    public class Transitions {
+    public class Transitions 
+    {
         internal Dictionary<XName, int> nameTransitions;
         internal Dictionary<WildCard, int> wildCardTransitions;
                 
-        internal bool IsEmpty {
-            get {
+        internal bool IsEmpty 
+        {
+            get 
+            {
                  return Count == 0;
             }
         }
 
-        internal int Count {
-            get {
+        internal int Count 
+        {
+            get 
+            {
                 int count = 0;
-                if (nameTransitions != null) count += nameTransitions.Count;
-                if (wildCardTransitions != null) count += wildCardTransitions.Count;
+                if (nameTransitions != null)
+                {
+                    count += nameTransitions.Count;
+                }
+                if (wildCardTransitions != null)
+                {
+                    count += wildCardTransitions.Count;
+                }
                 return count;
             }
             
         }
 
-        public Transitions() {
+        public Transitions() 
+        {
         }
 
-        public Transitions(params SingleTransition[] transitions) {
+        public Transitions(params SingleTransition[] transitions) 
+        {
             if (transitions != null)
-                foreach(SingleTransition st in transitions) {
-                    if (st.nameLabel != null) {
-                        if (nameTransitions == null) nameTransitions = new Dictionary<XName, int>();
+            {
+                foreach (SingleTransition st in transitions)
+                {
+                    if (st.nameLabel != null)
+                    {
+                        if (nameTransitions == null)
+                        {
+                            nameTransitions = new Dictionary<XName, int>();
+                        }
                         nameTransitions.Add(st.nameLabel, st.nextState);
                     }
-                    else {
-                        if (wildCardTransitions == null) wildCardTransitions = new Dictionary<WildCard, int>();
+                    else
+                    {
+                        if (wildCardTransitions == null)
+                        {
+                            wildCardTransitions = new Dictionary<WildCard, int>();
+                        }
                         wildCardTransitions.Add(st.wcLabel, st.nextState);
                     }
                 }
+            }
         }
 
-        public Transitions(Dictionary<XName, int> nameTrans, 
-                           Dictionary<WildCard, int> wildCardTrans) {
+        public Transitions(
+            Dictionary<XName, int> nameTrans, 
+            Dictionary<WildCard, int> wildCardTrans)
+        {
             this.nameTransitions = nameTrans;
             this.wildCardTransitions = wildCardTrans;
         }
 
-        internal static void Add<T>(ref Dictionary<T, int> d, T id, int nextState)
+        internal static void Add<T>(
+            ref Dictionary<T, int> d, T id, int nextState)
         {
             if (d == null)
             {
@@ -141,27 +183,40 @@ namespace Xml.Schema.Linq {
             d[id] = nextState;
         }
         
-        internal void Add(XName name, int nextState) {
+        internal void Add(XName name, int nextState) 
+        {
             Add(ref this.nameTransitions, name, nextState);
         }
 
-        internal void Add(WildCard wildCard, int nextState) {
+        internal void Add(WildCard wildCard, int nextState) 
+        {
             Add(ref this.wildCardTransitions, wildCard, nextState);
         }
 
 
-        internal int GetNextState(XName inputSymbol, out XName matchingName, out WildCard matchingWildCard) {
+        internal int GetNextState(
+            XName inputSymbol, 
+            out XName matchingName, 
+            out WildCard matchingWildCard)
+        {
             matchingWildCard = null;
             matchingName = null;
             
             //first try name table, then match any
             int state = FSM.InvalidState;
-            if (nameTransitions!=null && nameTransitions.TryGetValue(inputSymbol, out state)) {
+            if (nameTransitions!=null && 
+                nameTransitions.TryGetValue(inputSymbol, out state)) 
+            {
                 matchingName = inputSymbol;
             }
-            else if (wildCardTransitions != null) {//We need to scan the wildcard dictionary because this is not "equality" based checking
-                foreach(KeyValuePair<WildCard, int> pair in wildCardTransitions) {
-                   if (pair.Key.Allows(inputSymbol)) {
+            else if (wildCardTransitions != null) 
+            {
+                // We need to scan the wildcard dictionary because this is not 
+                // "equality" based checking
+                foreach(KeyValuePair<WildCard, int> pair in wildCardTransitions) 
+                {
+                   if (pair.Key.Allows(inputSymbol)) 
+                   {
                        matchingWildCard = pair.Key;
                        state = pair.Value;
                    }
@@ -171,19 +226,31 @@ namespace Xml.Schema.Linq {
             return state;
         }
         
-        internal void Clear(){
-            if (nameTransitions != null) nameTransitions.Clear();
-            if (wildCardTransitions!=null) wildCardTransitions.Clear();
+        internal void Clear()
+        {
+            if (nameTransitions != null)
+            {
+                nameTransitions.Clear();
+            }
+            if (wildCardTransitions != null)
+            {
+                wildCardTransitions.Clear();
+            }
         }
         
-        internal void CloneTransitions(Transitions otherTransitions, int srcState, int destState) {
+        internal void CloneTransitions(
+            Transitions otherTransitions, int srcState, int destState)
+        {
             bool isEmpty = IsEmpty;
-            if (otherTransitions.nameTransitions!=null) {
-                if (nameTransitions==null) {
+            if (otherTransitions.nameTransitions!=null) 
+            {
+                if (nameTransitions==null) 
+                {
                     nameTransitions = new Dictionary<XName,int>();
                 }
                 
-                foreach(KeyValuePair<XName, int> pair in otherTransitions.nameTransitions) {
+                foreach(KeyValuePair<XName, int> pair in otherTransitions.nameTransitions) 
+                {
                     int nextState = pair.Value;                   
 
                     //An optimization: if my transition is empty, even copy self-loop
@@ -197,12 +264,17 @@ namespace Xml.Schema.Linq {
                 
             }
             
-            if (otherTransitions.wildCardTransitions != null) {
-                if (wildCardTransitions == null) {
+            if (otherTransitions.wildCardTransitions != null) 
+            {
+                if (wildCardTransitions == null) 
+                {
                     wildCardTransitions = new Dictionary<WildCard,int>();
                 }
                 
-                foreach(KeyValuePair<WildCard, int> pair in otherTransitions.wildCardTransitions) {
+                foreach(
+                    KeyValuePair<WildCard, int> pair in 
+                    otherTransitions.wildCardTransitions)
+                {
                     int nextState = pair.Value;                   
 
                     //An optimization: if my transition is empty, even copy self-loop
@@ -214,99 +286,128 @@ namespace Xml.Schema.Linq {
          }
     }
 
-    public class WildCard {
-         public readonly static WildCard DefaultWildCard = new WildCard("##any","");
+    public class WildCard 
+    {
+        public readonly static WildCard DefaultWildCard = new WildCard("##any","");
          
-         XObjectsNamespaceList nsList;
+        XObjectsNamespaceList nsList;
 
-         internal XObjectsNamespaceList NsList {
+        internal XObjectsNamespaceList NsList 
+        {
             get { return nsList; }
         }
 
-        public WildCard(string namespaces, string targetNamespace) {
+        public WildCard(string namespaces, string targetNamespace) 
+        {
             if (targetNamespace == null) targetNamespace = "";
             if (namespaces == null) namespaces = "##any";
             this.nsList = new XObjectsNamespaceList(namespaces, targetNamespace);
         }
 
-        public override bool Equals(object obj) {
+        public override bool Equals(object obj) 
+        {
             WildCard symbol = obj as WildCard;
 
-            if (symbol != null)  return symbol.NsList.Equals(this.NsList);
+            if (symbol != null)
+            {
+                return symbol.NsList.Equals(this.NsList);
+            }
             return false;
         }
 
-        public override int GetHashCode() {
+        public override int GetHashCode() 
+        {
             return NsList.GetHashCode();
         }
         
-        internal bool Allows(XName symbol) {
+        internal bool Allows(XName symbol) 
+        {
             return this.NsList.Allows(symbol.Namespace.ToString());
         }
 
-        public override string ToString() {
+        public override string ToString() 
+        {
             return "<ANY> : " + this.NsList.ToString();
         }
     }
 
-    public class Set<T> : ICollection<T> {
+    public class Set<T> : ICollection<T> 
+    {
         // Only the keys matter; the type bool used for the value is arbitrary
         private Dictionary<T, bool> dictionary;
-        public Set() {
+        public Set() 
+        {
             dictionary = new Dictionary<T, bool>();
         }
 
-        public Set(T x) : this() {
+        public Set(T x) : this() 
+        {
             Add(x);
         }
 
-        public Set(IEnumerable<T> collection) : this() {
+        public Set(IEnumerable<T> collection) : this() 
+        {
             foreach (T x in collection)
+            {
                 Add(x);
+            }
         }
 
-        public Set(T[] array) : this() {
+        public Set(T[] array) : this() 
+        {
             foreach (T x in array) Add(x);
         }
 
-        public bool Contains(T x) {
+        public bool Contains(T x) 
+        {
             return dictionary.ContainsKey(x);
         }
 
-        public void Add(T x) {
+        public void Add(T x) 
+        {
             if (!Contains(x))
+            {
                 dictionary.Add(x, false);
+            }
         }
 
-        public bool Remove(T x) {
+        public bool Remove(T x) 
+        {
             return dictionary.Remove(x);
         }
 
-        public void Clear() {
+        public void Clear() 
+        {
             dictionary.Clear();
         }
 
-        public bool IsReadOnly {
+        public bool IsReadOnly 
+        {
             get { return false; }
         }
 
-        public IEnumerator<T> GetEnumerator() {
+        public IEnumerator<T> GetEnumerator() 
+        {
             return dictionary.Keys.GetEnumerator();
         }
 
-        IEnumerator IEnumerable.GetEnumerator() {
+        IEnumerator IEnumerable.GetEnumerator() 
+        {
             return GetEnumerator();
         }
 
-        public int Count {
+        public int Count 
+        {
             get { return dictionary.Count; }
         }
 
-        public void CopyTo(T[] arr, int i) {
+        public void CopyTo(T[] arr, int i) 
+        {
             dictionary.Keys.CopyTo(arr, i);
         }
        
-        public override String ToString() {
+        public override String ToString() 
+        {
             StringBuilder str = new StringBuilder();
             str.Append("{ ");
             bool first = true;

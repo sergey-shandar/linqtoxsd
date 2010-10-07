@@ -193,11 +193,11 @@ namespace Xml.Schema.Linq.CodeGen
         protected SymbolEntry AddSymbol(
             XmlQualifiedName qname, XmlSchemaObject schemaObject, string suffix)
         {
-            SymbolEntry symbol = new SymbolEntry();
+            var symbol = new SymbolEntry();
             symbol.xsdNamespace = qname.Namespace;
             symbol.clrNamespace = configSettings.GetClrNamespace(qname.Namespace);
             symbol.symbolName = qname.Name;
-            string identifierName = NameGenerator.MakeValidIdentifier(
+            var identifierName = NameGenerator.MakeValidIdentifier(
                 symbol.symbolName, this.configSettings.NameMangler2);
             symbol.identifierName = identifierName;
             int id = 0;
@@ -208,14 +208,18 @@ namespace Xml.Schema.Linq.CodeGen
                 while (symbols.ContainsKey(symbol))
                 {
                     id++; 
-                    symbol.identifierName = identifierName + id.ToString(CultureInfo.InvariantCulture.NumberFormat);
+                    symbol.identifierName = 
+                        identifierName + 
+                        id.ToString(CultureInfo.InvariantCulture.NumberFormat);
                 }
             }
-            if(symbol.isNameFixed())
+            if (symbol.isNameFixed())
+            {
                 nFixedNames++;
-            
+            }
             symbols.Add(symbol, symbol);
-            schemaNameToIdentifiers.Add(schemaObject, symbol.identifierName); //Type vs typeName
+            // Type vs typeName
+            schemaNameToIdentifiers.Add(schemaObject, symbol.identifierName);
             return symbol;
         }
     }
@@ -293,7 +297,10 @@ namespace Xml.Schema.Linq.CodeGen
             return identifierName;
         }
 
-        public void AddAnonymousType(string identifier, XmlSchemaElement parentElement, ClrTypeReference parentElementTypeRef)
+        public void AddAnonymousType(
+            string identifier, 
+            XmlSchemaElement parentElement, 
+            ClrTypeReference parentElementTypeRef)
         {
             AnonymousType at = new AnonymousType();
             at.identifier = identifier;
@@ -302,7 +309,8 @@ namespace Xml.Schema.Linq.CodeGen
             anonymousTypes.Add(at);
         }
 
-        public void AddComplexRestrictedContentType(XmlSchemaComplexType wrappingType, ClrTypeReference wrappingTypeRef) 
+        public void AddComplexRestrictedContentType(
+            XmlSchemaComplexType wrappingType, ClrTypeReference wrappingTypeRef)
         {
             string identifier = NameGenerator.MakeValidIdentifier(
                 wrappingType.Name, this.ConfigSettings.NameMangler2);

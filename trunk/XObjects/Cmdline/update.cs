@@ -6,36 +6,28 @@
 
     internal class Update: S.IDisposable
     {
-        private IO.MemoryStream stream = new IO.MemoryStream();
+        private readonly IO.MemoryStream stream = new IO.MemoryStream();
 
-        private string filename;
+        private readonly string filename;
 
-        private T.Encoding encoding;
+        private readonly T.Encoding encoding;
 
-        private IO.TextWriter writer;
-
-        public IO.TextWriter Writer
-        {
-            get
-            {
-                return this.writer;
-            }
-        }
+        public readonly IO.TextWriter Writer;
 
         public Update(string filename, T.Encoding encoding)
         {
             this.filename = filename;
             this.encoding = encoding;
-            this.writer = new IO.StreamWriter(this.stream, encoding);
+            this.Writer = new IO.StreamWriter(this.stream, encoding);
         }
 
         public bool Close()
         {
-            this.writer.Close();
+            this.Writer.Close();
             var memoryString = new IO.StreamReader(
                     new IO.MemoryStream(this.stream.ToArray()), this.encoding).
                 ReadToEnd();
-            string fileString = "";
+            var fileString = "";
             using (var file = new IO.FileStream(
                 this.filename, IO.FileMode.OpenOrCreate))
             {

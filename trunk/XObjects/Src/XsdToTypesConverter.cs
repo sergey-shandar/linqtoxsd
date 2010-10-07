@@ -889,7 +889,7 @@ namespace Xml.Schema.Linq.CodeGen
             XmlSchemaElement parentElement, XmlSchemaSimpleType schemaType)
         {
             Debug.Assert(schemaType != null);
-            ClrPropertyInfo textProperty = 
+            var textProperty = 
                 new ClrPropertyInfo(
                     Constants.SInnerTypePropertyName, 
                     string.Empty, 
@@ -919,13 +919,15 @@ namespace Xml.Schema.Linq.CodeGen
             XmlQualifiedName schemaTypeName = schemaType.QualifiedName;
             string schemaName = elem.QualifiedName.Name;
             string schemaNs = elem.QualifiedName.Namespace;
-            string clrNs = elem.FormResolved() == XmlSchemaForm.Qualified ? configSettings.GetClrNamespace(schemaNs) : string.Empty;
+            string clrNs = 
+                elem.FormResolved() == XmlSchemaForm.Qualified ? 
+                    configSettings.GetClrNamespace(schemaNs) : string.Empty;
 
 
 
             SchemaOrigin typeRefOrigin = SchemaOrigin.Fragment;
             bool isTypeRef = false;
-            bool anonymousType = schemaTypeName.IsEmpty ? true : false;
+            bool anonymousType = schemaTypeName.IsEmpty;
             XmlSchemaObject schemaObject = schemaType;
 
             ArrayList substitutionMembers = null;
